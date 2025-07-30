@@ -1,3 +1,10 @@
+---
+layout: post
+title:  "jekyll入门"
+date:   2025-07-30 17:00:02 +0800
+categories: jekyll update
+---
+
 # jekyll入门
 
 ## 前言
