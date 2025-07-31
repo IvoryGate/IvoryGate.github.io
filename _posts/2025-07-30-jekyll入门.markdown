@@ -5,7 +5,55 @@ date:   2025-07-30 17:00:02 +0800
 categories: jekyll update
 ---
 
-# jekyll入门
+# 前言
 
-## 前言
+**什么是[Jekyll](https://jekyllrb.com/)?**
+
+> Jekyll is a static site generator. It takes text written in your favorite markup language and uses layouts to create a static website. You can tweak the site’s look and feel, URLs, the data displayed on the page, and more.
+
+**为什么选择Jekyll?**
+
+此前也用过wordpress，以及尝试自己从0开始写一个blog等。但是搭建这样的站点的时间成本，和维护成本对我而言过高，且其响应速度实在令人着急。将大量时间投入到站点本身也有违了我想要有一个地方记录和输出内容的初衷。在使用 git page 时，发现其推荐使用Jekyll，故前来一试。
+
+# 快速开始
+
+这里使用的系统及版本是 MACOS15.5，创建jekyll站点与本地运行步骤如下：
+
+```tex
+# 安装jekyll与bundler
+gem install jekyll bundler
+# 创建jekyll站点
+jekyll new myblog
+# 切换到博客根目录
+cd myblog
+# 运行
+bundle exec jekyll serve
+```
+
+# jekyll的目录结构
+
+```tex
+.
+├── _config.yml
+├── _posts
+│   └── 2025-07-30-jekyll入门.markdown
+├── _site
+│   ├── 404.html
+│   ├── about
+│   │   └── index.html
+│   ├── assets
+│   │   ├── main.css
+│   │   ├── main.css.map
+│   │   └── minima-social-icons.svg
+│   ├── feed.xml
+│   ├── index.html
+│   └── jekyll
+│       └── update
+├── 404.html
+├── about.markdown
+├── Gemfile
+├── Gemfile.lock
+└── index.markdown
+
+```
 
