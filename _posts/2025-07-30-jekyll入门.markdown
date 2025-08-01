@@ -57,3 +57,38 @@ bundle exec jekyll serve
 
 ```
 
+# 主题
+
+使用jekyll创建项目时，会自动使用minima主题，其文件结构如下：
+
+```tex
+.
+├── _includes
+│   ├── disqus_comments.html
+│   ├── footer.html
+│   ├── google-analytics.html
+│   ├── head.html
+│   ├── header.html
+│   ├── icon-github.html
+│   ├── icon-github.svg
+│   ├── icon-twitter.html
+│   ├── icon-twitter.svg
+│   └── social.html
+├── _layouts
+│   ├── default.html
+│   ├── home.html
+│   ├── page.html
+│   └── post.html
+├── _sass
+│   ├── minima
+│   │   ├── _base.scss
+│   │   ├── _layout.scss
+│   │   └── _syntax-highlighting.scss
+│   └── minima.scss
+├── assets
+│   ├── main.scss
+│   └── minima-social-icons.svg
+├── LICENSE.txt
+└── README.md
+```
+
