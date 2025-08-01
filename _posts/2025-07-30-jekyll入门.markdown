@@ -30,13 +30,37 @@ cd myblog
 bundle exec jekyll serve
 ```
 
-# jekyll的目录结构
+# jekyll站点的目录结构
+
+在执行`jekyll new myblog`命令后，目录如下：
 
 ```tex
 .
 ├── _config.yml
 ├── _posts
-│   └── 2025-07-30-jekyll入门.markdown
+│   └── 2025-08-01-welcome-to-jekyll.markdown
+├── 404.html
+├── about.markdown
+├── Gemfile
+├── Gemfile.lock
+└── index.markdown
+```
+
+其中，我们需要重点关注这些目录及文件：
+
+|    NAME     |           DeSCRIPTION           |
+| :---------: | :-----------------------------: |
+| _config.yml |            配置文件             |
+|   _posts    |     存放所有博客文章的目录      |
+|   Gemfile   | 一个用于描述 gem 之间依赖的文件 |
+
+接着，在执行`bundle exec jekyll serve`命令后，我们会发现项目中多了一个叫做`_site`的目录，它似乎看上去包含了很多内容，但事实上这些都是些无关紧要的东西。
+
+```tex
+.
+├── _config.yml
+├── _posts
+│   └── 2025-08-01-welcome-to-jekyll.markdown
 ├── _site
 │   ├── 404.html
 │   ├── about
@@ -49,13 +73,18 @@ bundle exec jekyll serve
 │   ├── index.html
 │   └── jekyll
 │       └── update
+│           └── 2025
+│               └── 08
+│                   └── 01
+│                       └── welcome-to-jekyll.html
 ├── 404.html
 ├── about.markdown
 ├── Gemfile
 ├── Gemfile.lock
 └── index.markdown
-
 ```
+
+
 
 # 主题
 
