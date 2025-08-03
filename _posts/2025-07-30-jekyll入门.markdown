@@ -30,7 +30,7 @@ cd myblog
 bundle exec jekyll serve
 ```
 
-# jekyll站点的目录结构
+# Jekyll站点的目录结构
 
 在执行`jekyll new myblog`命令后，目录如下：
 
@@ -48,15 +48,13 @@ bundle exec jekyll serve
 
 其中，我们需要重点关注这些目录及文件：
 
-|    NAME     |           DeSCRIPTION           |
-| :---------: | :-----------------------------: |
-| _config.yml |            配置文件             |
-|   _posts    |     存放所有博客文章的目录      |
-|   Gemfile   | 一个用于描述 gem 之间依赖的文件 |
+|    NAME     |                         DeSCRIPTION                          |
+| :---------: | :----------------------------------------------------------: |
+| _config.yml | 存储[配置](https://jekylldo.cn/docs/configuration/)数据，相当于网站设置或者网站的系统设置 |
+|   _posts    |                    存放所有博客文章的目录                    |
+|   Gemfile   |               一个用于描述 gem 之间依赖的文件                |
 
-
-
-接着，在执行`bundle exec jekyll serve`命令后，我们会发现项目中多了一个叫做`_site`的目录，它似乎看上去包含了很多内容，但事实上这些都是些无关紧要的东西。可以注意到，
+接着，在执行`bundle exec jekyll serve`命令后，我们会发现项目中多了一个叫做`_site`的目录，它似乎看上去包含了很的多内容，~~但其实这些都是些无关紧要的东西~~。我们可以注意到，在`_site`目录下有许多熟悉的“面孔”，如`404.html`、`index.html`，`welcome-to-jekyll.html`等文件。事实上，`_site`目录是jekyll根据你的文章、相关样式模板以及配置文件生成的网站的存放位置，修改这个目录下的文件可以暂时修改你的网站，但当你重新构建该网站时，你的修改会被再次覆盖掉。因此，我们无需过分关注这一部分内容。
 
 ```tex
 .
@@ -86,7 +84,9 @@ bundle exec jekyll serve
 └── index.markdown
 ```
 
+到这里，一个基本的Jekyll站点就搭建完成了。使用`bundle exec jekyll serve`命令可以将该站点运行至本地的`4000`端口。访问http://127.0.0.1:4000/可以查看该站点的效果如下图所示。
 
+![image-20250804014328791](./assets/image-20250804014328791.png)
 
 # 主题
 
@@ -122,4 +122,3 @@ bundle exec jekyll serve
 ├── LICENSE.txt
 └── README.md
 ```
-
