@@ -86,7 +86,7 @@ bundle exec jekyll serve
 
 到这里，一个基本的Jekyll站点就搭建完成了。使用`bundle exec jekyll serve`命令可以将该站点运行至本地的`4000`端口。访问http://127.0.0.1:4000/可以查看该站点的效果如下图所示。
 
-![image-20250804014328791](./assets/image-20250804014328791.png)
+![image-20250804014328791]({{ site.url }}/images/image-20250804014328791.png)
 
 # 主题
 
