@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "jekyll入门"
+title:  "jekyll入门——站点的创建"
 date:   2025-07-30 17:00:02 +0800
 categories: jekyll update
 ---
@@ -30,9 +30,7 @@ cd myblog
 bundle exec jekyll serve
 ```
 
-# Jekyll站点的目录结构
-
-在执行`jekyll new myblog`命令后，目录如下：
+在执行`jekyll new myblog`命令后，`myblog`目录内容如下：
 
 ```tex
 .
@@ -87,6 +85,12 @@ bundle exec jekyll serve
 到这里，一个基本的Jekyll站点就搭建完成了。使用`bundle exec jekyll serve`命令可以将该站点运行至本地的`4000`端口。访问http://127.0.0.1:4000/可以查看该站点的效果如下图所示。
 
 ![image-20250804014328791]({{ site.url }}/images/image-20250804014328791.png)
+
+# 站点内容的修改
+
+在站点成功在本地跑起来后，我们就需要一步一步来装修这个“毛胚房”了。
+
+# 站点样式的修改
 
 # 主题
 
