@@ -23,7 +23,7 @@ email: j2737035695@google.com
 description: >- # this means to ignore newlines until "baseurl:"
   What's past is prologue.
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "http://127.0.0.1:4000/" # the base hostname & protocol for your site, e.g. http://example.com
+url: "http://127.0.0.1:4000" # the base hostname & protocol for your site, e.g. http://example.com
 # twitter_username: ikun-king
 github_username:  IvoryGate
 
