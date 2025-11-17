@@ -10,13 +10,27 @@ lastUpdated: true
 hero:
   name: "RESTART"
   text: "IvoryGate"
-  tagline: 是非审之于己，毁誉听之于人，得失安之于数。
+  tagline: What's past is prologue.
   image:
-    src: ./.vitepress/img/touxiang.png
+    src: /folder.svg
   actions:
     - theme: brand
       text: 进入主页
       link: /column/views/guide
     - theme: alt
-      text: 个人成长
-      link: /column/Growing/
+      text: 个人陈述
+      link: /personal_statement.md
+features:
+  - title: 链接检查
+    icon: 
+      src: /folder.svg
+    details: 检查 Markdown 链接
+    link: ./guide/markdown/others.html#link-check
+
+  - title: 提示容器
+    details: 用样式装饰 Markdown 内容
+    link: ./guide/markdown/stylize/hint.html
+
+  - title: GFM 警告
+    details: GFM 风格的警告容器
+    link: ./guide/markdown/stylize/alert.html
