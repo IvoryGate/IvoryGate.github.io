@@ -2,7 +2,7 @@
 # https://vitepress.dev/reference/default-theme-home-page
 layout: home
 home: true
-title: IvoryGate的博客
+title: IvoryGate的个人知识库
 titleTemplate: Hi，终于等到你
 editLink: true
 lastUpdated: true
@@ -16,7 +16,7 @@ hero:
   actions:
     - theme: brand
       text: 进入主页
-      link: /column/views/guide
+      link: /test.md
     - theme: alt
       text: 个人陈述
       link: /personal_statement.md
@@ -34,3 +34,4 @@ features:
   - title: GFM 警告
     details: GFM 风格的警告容器
     link: ./guide/markdown/stylize/alert.html
+

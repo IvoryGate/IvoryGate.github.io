@@ -7,6 +7,7 @@ export default defineConfig({
   title: "IvoryGate的个人知识库",
   description: "Personal Knowledge Base",
   themeConfig: {
+    logo: "/folder.svg",
     outlineTitle: "目录",
     outline:[2,6],
     // https://vitepress.dev/reference/default-theme-config
@@ -19,10 +20,10 @@ export default defineConfig({
     sidebar: {
       "/PYTHON": set_sidebar("/PYTHON"),
     },
-    footer:{
-      copyright: "Copyright@ 2025"
+    footer: {
+      message: 'Released under the MIT License.',
+      copyright: 'Copyright © 2025-present IvoryGate',
     },
-
     socialLinks: [
       { icon: 'github', link: 'https://github.com/IvoryGate' }
     ],
@@ -46,5 +47,8 @@ export default defineConfig({
         },
       },
     },
+  },
+  markdown: {
+    math: true
   }
 })
