@@ -7,7 +7,7 @@
 
     <main class="content-wrapper">
       <section class="profile">
-        <img src="../assets/avatar.png" alt="个人头像" class="avatar">
+        <img src="" alt="个人头像" class="avatar">
         <div class="bio">
           <h2>关于我</h2>
           <p>拥有3年前端开发经验，专注于现代Web应用架构和用户体验优化。熟悉TypeScript、Vue生态体系，擅长复杂项目的模块化开发。</p>
