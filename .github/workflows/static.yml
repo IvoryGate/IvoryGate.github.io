@@ -1,0 +1,74 @@
+# 文件名: .github/workflows/static.yml
+
+name: Deploy VitePress Site to GitHub Pages
+
+on:
+  # 在推送到 main 分支时触发工作流程
+  push:
+    branches: [main]
+  
+  # 允许手动从 Actions 选项卡运行此工作流程
+  workflow_dispatch:
+
+# 设置权限，允许 GitHub Actions 写入内容和部署 Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 仅允许同时运行一个部署
+concurrency:
+  cancel-in-progress: true
+  group: pages
+
+jobs:
+  # ------------------------------------
+  # 1. 构建工作 (Build Job)
+  # ------------------------------------
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          # 深度克隆，确保构建时能访问所有历史记录
+          fetch-depth: 0 
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20 # 推荐使用 LTS 版本
+          cache: npm # 如果您使用 npm, 可以替换为 yarn 或 pnpm
+
+      - name: Install dependencies
+        run: npm install
+        
+      - name: Build VitePress site
+        run: npm run docs:build # 假设您的 package.json 中构建命令为 docs:build
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+        
+      - name: Upload Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          # 上传构建产物目录。VitePress 默认输出到这个路径
+          path: docs/.vitepress/dist 
+
+  # ------------------------------------
+  # 2. 部署工作 (Deployment Job)
+  # ------------------------------------
+  deploy:
+    environment:
+      # 指定部署环境为 GitHub Pages
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    
+    # 依赖于构建工作的成功
+    needs: build
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
