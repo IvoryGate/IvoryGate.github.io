@@ -1,5 +1,5 @@
 import { defineConfig } from 'vitepress'
-import { set_sidebar } from "./utils/auto_sidebar.mjs";
+import { generateSidebar } from 'vitepress-sidebar'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -14,12 +14,20 @@ export default defineConfig({
     nav: [
       { text: 'Home', link: '/' },
       {text: 'Moments', link: '/'},
-      { text: 'Documents', link: '/documents.md' }
+      { text: 'tags', link: '/tags' },
     ],
 
-    sidebar: {
-      "/PYTHON": set_sidebar("/PYTHON"),
-    },
+    sidebar: generateSidebar([
+      {
+        documentRootPath: 'docs',
+        scanStartPath: 'PYTHON',
+        resolvePath: '/PYTHON/',
+        useTitleFromFileHeading: true,
+        collapsed: false,         // 是否折叠
+        sortMenusByFrontmatterOrder: true
+        // manualSortFileNameByPriority: ['intro.md', 'installation.md'] // 手动排序
+      }
+    ]),
     footer: {
       message: 'Released under the MIT License.',
       copyright: 'Copyright © 2025-present IvoryGate',
@@ -49,6 +57,7 @@ export default defineConfig({
     },
   },
   markdown: {
-    math: true
+    math: true,
+    lineNumbers: true
   }
 })

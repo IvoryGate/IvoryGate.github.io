@@ -1,14 +1,24 @@
 {
-  "devDependencies": {
-    "markdown-it-mathjax3": "^5.2.0",
-    "vitepress": "^1.6.4"
-  },
+  "name": "ivorygate-blog",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
   "scripts": {
-    "docs:dev": "vitepress dev",
-    "docs:build": "vitepress build",
-    "docs:preview": "vitepress preview"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "devDependencies": {
+    "vitepress": "^1.6.4",
+    "vitepress-sidebar": "^1.33.1",
+    "vue": "^3.5.25"
   },
   "dependencies": {
-    "vue": "^3.5.24"
+    "markdown-it-mathjax3": "^4.3.2"
   }
 }

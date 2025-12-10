@@ -2,6 +2,7 @@
 Date: Thu Sep 18 2025 22:29:29 GMT+0800
 tags:
   - python
+order: 1
 ---
 # python虚拟环境
 ## 创建python虚拟环境
