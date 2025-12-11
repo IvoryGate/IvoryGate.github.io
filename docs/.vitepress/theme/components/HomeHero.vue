@@ -33,7 +33,7 @@ import { ref, onMounted } from 'vue';
 const props = defineProps({
   avatarUrl: {
     type: String,
-    default: "/public/xiaolan.jpg" 
+    default: "/xiaolan.jpg" 
   },
   toLink: {
     type: String,
