@@ -15,6 +15,7 @@ export default defineConfig({
       { text: 'Home', link: '/' },
       {text: 'Moments', link: '/'},
       { text: 'tags', link: '/tags' },
+      { text: 'test', link: '/test' }
     ],
 
     sidebar: generateSidebar([
@@ -28,10 +29,10 @@ export default defineConfig({
         // manualSortFileNameByPriority: ['intro.md', 'installation.md'] // 手动排序
       }
     ]),
-    footer: {
-      message: 'Released under the MIT License.',
-      copyright: 'Copyright © 2025-present IvoryGate',
-    },
+    // footer: {
+    //   message: 'Released under the MIT License.',
+    //   copyright: 'Copyright © 2025-present IvoryGate',
+    // },
     socialLinks: [
       { icon: 'github', link: 'https://github.com/IvoryGate' }
     ],
