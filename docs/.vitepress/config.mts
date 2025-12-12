@@ -13,11 +13,9 @@ export default defineConfig({
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'Home', link: '/' },
-      {text: 'Moments', link: '/'},
-      { text: 'tags', link: '/tags' },
-      { text: 'test', link: '/test' }
+      {text: 'Moments', link: '/moments'},
+      { text: 'Articles', link: '/tags' }
     ],
-
     sidebar: generateSidebar([
       {
         documentRootPath: 'docs',
@@ -60,5 +58,5 @@ export default defineConfig({
   markdown: {
     math: true,
     lineNumbers: true
-  }
+  },
 })
