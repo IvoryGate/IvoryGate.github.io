@@ -1,8 +1,11 @@
 ---
-Date: Thu Sep 18 2025 22:29:29 GMT+0800
+title: Python文件读写
+date: Thu Sep 18 2025 22:29:29 GMT+0800
 tags:
   - python
-order: 2
+cover: /moents_head_card.webp  # 封面图路径 (可以是本地 /public/xxx 或 网络链接)
+description: 本文将深入剖析 Vue3 的 Proxy 机制，对比 Vue2 的 defineProperty，并结合实际案例讲解如何在项目中优雅地使用 Composition API。 # 自定义摘要
+sticky: 1 # (可选) 用于置顶逻辑
 ---
 # Python文件读写
 

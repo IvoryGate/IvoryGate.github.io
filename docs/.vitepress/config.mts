@@ -4,7 +4,7 @@ import { generateSidebar } from 'vitepress-sidebar'
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   head: [["link", { rel: "icon", href: "/folder.svg" }]],
-  title: "IvoryGate的个人知识库",
+  title: "风驻云不归的博客",
   description: "Personal Knowledge Base",
   themeConfig: {
     logo: "/folder.svg",

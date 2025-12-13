@@ -1,775 +1,333 @@
-/* .vitepress/theme/custom.css - 最终版：集成 Custom Containers 卡片样式 (阴影修正) */
+/* .vitepress/theme/custom.css - 最终完美版 (去Curtain + 修复所有已知问题) */
 
 /* ========================================================= */
-/* 0. 核心主题配色变量：素雅清新风格 (【已修正阴影】) */
+/* 0. 全局配置 & 核心变量 */
 /* ========================================================= */
+html {
+  scroll-behavior: smooth !important;
+  /* 锚点跳转留出间隙，防止被导航栏遮挡 */
+  scroll-padding-top: calc(var(--vp-nav-height) + 50px);
+}
 
 :root {
-  /* --- 亮色模式 (Light Mode) --- */
+  /* --- 亮色模式 --- */
+  --vp-c-bg: #f7f9fc;
+  --vp-c-bg-soft: #ffffff;
+  --vp-c-bg-alt: #f1f4f8;
+  --vp-c-text-1: #1e293b;
+  --vp-c-text-2: #475569;
   
-  /* 基础颜色 */
-  --vp-c-bg: #f7f9fc;          
-  --vp-c-bg-soft: #ffffff;     
-  --vp-c-bg-alt: #f1f4f8;      
-  
-  /* 文本颜色 */
-  --vp-c-text-1: #1e293b;      
-  --vp-c-text-2: #475569;      
-  --vp-c-text-3: #6b7280;      
-  
-  /* 品牌色 (清新蓝) */
-  --vp-c-brand-1: #4a90e2;     
-  --vp-c-brand-2: #3a7fd6;     
-  --vp-c-brand-3: #5b9ee7;     
+  --vp-c-brand-1: #4a90e2;
+  --vp-c-brand-2: #3a7fd6;
   --vp-c-brand-rgb: 74, 144, 226; 
   
-  /* 边框和分割线 */
+  /* 柔和的品牌背景色 (用于选中态) */
+  --vp-c-brand-soft: rgba(74, 144, 226, 0.1);
+  
   --vp-c-divider: #e2e8f0;     
-
-  /* 表格颜色 */
-  --vp-table-header-bg: #eef1f5; 
-  --vp-table-stripe-bg: #f7f9fc; 
-  
-  /* Custom Containers 配色 */
-  --vp-c-tip: #4a90e2;          
-  --vp-c-warning: #ffb700;      
-  --vp-c-danger: #e74c3c;       
-  --vp-c-info: #5bc0de;         
-  --vp-c-details: #7f8c8d;      
-  
   --vp-container-bg: #fcfdff;   
+  --vp-card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   
-  /* 亮色模式卡片阴影 */
-  --vp-card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* 略微加重阴影 */
-}
-
-:root.dark {
-  /* --- 暗色模式 (Dark Mode) --- */
+  /* 布局变量 */
+  --vp-nav-height: 64px; 
+  --vp-local-nav-height: 48px; /* 目录栏高度 */
+  --vp-sidebar-width: 280px;
   
-  /* 基础颜色 */
-  --vp-c-bg: #1a202c;          
-  --vp-c-bg-soft: #252d3a;     
-  --vp-c-bg-alt: #1f2530;      
+  /* 侧边栏卡片间距变量 */
+  --sidebar-gap-top: 20px;
+  --sidebar-gap-left: 20px;
+  --sidebar-gap-bottom: 20px;
 
-  /* 文本颜色 */
-  --vp-c-text-1: #f1f5f9;      
-  --vp-c-text-2: #94a3b8;      
-  --vp-c-text-3: #a8b3cf;      
+  /* 毛玻璃配置 */
+  --glass-bg-light: rgba(255, 255, 255, 0.85);
+  --glass-bg-dark: rgba(30, 32, 40, 0.85);
+  --glass-border-light: rgba(255, 255, 255, 0.6);
+  --glass-border-dark: rgba(255, 255, 255, 0.1);
 
-  /* 品牌色 (柔和亮蓝) */
-  --vp-c-brand-1: #79c0ff;     
-  --vp-c-brand-2: #65a8d9;     
-  --vp-c-brand-3: #5895c7;     
-  --vp-c-brand-rgb: 121, 192, 255; 
-
-
-  /* 边框和分割线 */
-  --vp-c-divider: #475569;     
-
-  /* 表格颜色 */
-  --vp-table-header-bg: #2e3b4a; 
-  --vp-table-stripe-bg: #2a333f; 
-  
-  /* Custom Containers 配色 */
-  --vp-c-tip: #79c0ff;          
-  --vp-c-warning: #ffd15c;      
-  --vp-c-danger: #ff7676;       
-  --vp-c-info: #7ed6e9;         
-  --vp-c-details: #bdc3c7;      
-
-  --vp-container-bg: #2c3440;   
-  
-  /* 暗色模式卡片阴影 */
-  --vp-card-shadow: 0 4px 10px rgba(255, 255, 255, 0.05); /* 柔和白色阴影 */
-}
-
-
-/* ========================================================= */
-/* 12. Custom Containers (信息块) 样式优化 【卡片风格+阴影】 */
-/* ========================================================= */
-
-.VPDoc div[class*='custom-container'] {
-    /* 基础卡片样式 */
-    border: none !important;
-    border-radius: 10px !important; 
-    padding: 16px 20px !important;
-    margin: 1.5rem 0 !important;
-    
-    background-color: var(--vp-container-bg) !important; 
-    /* 使用统一的卡片阴影变量 */
-    box-shadow: var(--vp-card-shadow); 
-    
-    position: relative;
-    overflow: hidden;
-}
-
-/* 移除默认的边框和背景 */
-.VPDoc div[class*='custom-container'].tip,
-.VPDoc div[class*='custom-container'].warning,
-.VPDoc div[class*='custom-container'].danger,
-.VPDoc div[class*='custom-container'].info,
-.VPDoc div[class*='custom-container'].details {
-    background-color: var(--vp-container-bg) !important;
-    border-left: none !important;
-    color: var(--vp-c-text-2) !important;
-}
-
-/* 左侧强调色边栏 (使用::before实现更粗的边框) */
-.VPDoc div[class*='custom-container']::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 6px; 
-    height: 100%;
-    z-index: 1;
-}
-
-/* 1. Tip 样式 (使用品牌色) */
-.VPDoc div.custom-container.tip::before {
-    background-color: var(--vp-c-tip);
-}
-/* 2. Warning 样式 */
-.VPDoc div.custom-container.warning::before {
-    background-color: var(--vp-c-warning);
-}
-/* 3. Danger 样式 */
-.VPDoc div.custom-container.danger::before {
-    background-color: var(--vp-c-danger);
-}
-/* 4. Info 样式 */
-.VPDoc div.custom-container.info::before {
-    background-color: var(--vp-c-info);
-}
-/* 5. Details 样式 (Summary/Details 默认灰色) */
-.VPDoc div.custom-container.details::before {
-    background-color: var(--vp-c-details);
-}
-
-
-/* ------------------------------------------------------------- */
-/* 标题和图标修正 */
-/* ------------------------------------------------------------- */
-
-/* 标题容器 (P) - 确保标题与内容分离并突出 */
-.VPDoc div[class*='custom-container'] p.custom-container-title {
-    font-weight: 700 !important;
-    margin: 0 0 8px 0 !important; 
-    padding: 0 !important;
-    font-size: 1.05rem;
-    position: relative;
-    padding-left: 20px !important; 
-    color: var(--vp-c-text-1) !important;
-}
-
-/* 自定义图标 (使用 ::after 模拟 VitePress 默认图标位置) */
-.VPDoc div[class*='custom-container'] p.custom-container-title::after {
-    content: 'i'; 
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    font-family: inherit;
-    font-size: 1.1em;
-    font-weight: bold;
-}
-/* 隐藏默认图标，让 VitePress 的 SVG/图标生效 */
-.VPDoc div[class*='custom-container'] p.custom-container-title > svg {
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 18px; 
-    height: 18px;
-    margin-right: 5px;
-}
-
-
-/* 标题文本颜色与图标颜色同步 */
-.VPDoc div.custom-container.tip p.custom-container-title {
-    color: var(--vp-c-tip) !important;
-}
-.VPDoc div.custom-container.tip svg {
-    fill: var(--vp-c-tip) !important;
-}
-
-.VPDoc div.custom-container.warning p.custom-container-title {
-    color: var(--vp-c-warning) !important;
-}
-.VPDoc div.custom-container.warning svg {
-    fill: var(--vp-c-warning) !important;
-}
-
-.VPDoc div.custom-container.danger p.custom-container-title {
-    color: var(--vp-c-danger) !important;
-}
-.VPDoc div.custom-container.danger svg {
-    fill: var(--vp-c-danger) !important;
-}
-
-.VPDoc div.custom-container.info p.custom-container-title {
-    color: var(--vp-c-info) !important;
-}
-.VPDoc div.custom-container.info svg {
-    fill: var(--vp-c-info) !important;
-}
-
-.VPDoc div.custom-container.details p.custom-container-title {
-    color: var(--vp-c-details) !important;
-}
-.VPDoc div.custom-container.details svg {
-    fill: var(--vp-c-details) !important;
-}
-
-/* 修正 Details 容器的 summary 元素样式 */
-.VPDoc details.custom-container-details summary {
-    font-weight: 700;
-    font-size: 1.05rem;
-    color: var(--vp-c-text-1) !important;
-    cursor: pointer;
-    margin-bottom: 8px;
-    padding-left: 20px;
-    position: relative;
-    background: none !important;
-    border: none !important;
-}
-.VPDoc details.custom-container-details summary::before {
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    content: '▶'; 
-    font-size: 0.8em;
-    color: var(--vp-c-details);
-    transition: transform 0.2s;
-}
-.VPDoc details.custom-container-details[open] summary::before {
-    transform: translateY(-50%) rotate(90deg);
-}
-
-/* 修正 Details 容器内容上方的边距 */
-.VPDoc details.custom-container-details .custom-container-details-content {
-    padding-top: 8px !important;
-    border-top: 1px dashed var(--vp-c-divider);
-    margin-top: 8px;
-}
-
-
-/* ------------------------------------------------------------- */
-/* 剩余未修改的部分 (代码块、分页、表格等) - 保持不变 */
-/* ------------------------------------------------------------- */
-
-/* ========================================================= */
-/* 1. macOS 代码块样式（继承配色并修正 Z-Index） */
-/* ========================================================= */
-
-:root {
-  --mac-red: #ff5c5a;     
-  --mac-yellow: #ffc22e;  
-  --mac-green: #2ecc71;   
-  
-  --mac-header-height: 30px;
-  --vp-code-padding: 16px;
-  --vp-code-line-height: 24px; 
-
-  --mac-header-bg: #ebeef0; 
-  --mac-box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); 
-  
+  /* Mac代码块变量 */
+  --mac-red: #ff5c5a; --mac-yellow: #ffc22e; --mac-green: #2ecc71;
+  --mac-header-height: 30px; --vp-code-padding: 16px;
+  --mac-header-bg: #ebeef0; --mac-box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
   --mac-content-start-top: calc(var(--mac-header-height) + var(--vp-code-padding));
 }
 
 :root.dark {
-    --mac-header-bg: #2c3a4a; 
-    --mac-box-shadow: 0 0 10px rgba(255, 255, 255, 0.06); 
+  /* --- 暗色模式 --- */
+  --vp-c-bg: #1a202c;
+  --vp-c-bg-soft: #252d3a;
+  --vp-c-bg-alt: #1f2530;
+  --vp-c-text-1: #f1f5f9;
+  --vp-c-text-2: #94a3b8;
+  
+  --vp-c-brand-1: #79c0ff;
+  --vp-c-brand-2: #65a8d9;
+  --vp-c-brand-rgb: 121, 192, 255; 
+  --vp-c-brand-soft: rgba(121, 192, 255, 0.15);
+  
+  --vp-c-divider: #475569;
+  --vp-container-bg: #2c3440;
+  --vp-card-shadow: 0 4px 10px rgba(255, 255, 255, 0.05);
+  
+  --mac-header-bg: #2c3a4a; --mac-box-shadow: 0 0 10px rgba(255, 255, 255, 0.06);
 }
 
-/* --------------------------------------------------------- */
-/* 3. macOS 窗口风格代码块样式（外观与布局） */
-/* --------------------------------------------------------- */
+/* ========================================================= */
+/* PART A: 组件样式 (代码块/卡片/表格/按钮) - 保持不变 */
+/* ========================================================= */
 
+/* 1. Custom Containers */
+.VPDoc div[class*='custom-container'] {
+    border: none !important; border-radius: 10px !important; 
+    padding: 16px 20px !important; margin: 1.5rem 0 !important;
+    background-color: var(--vp-container-bg) !important; 
+    box-shadow: var(--vp-card-shadow); position: relative; overflow: hidden;
+}
+.VPDoc div[class*='custom-container']::before {
+    content: ''; position: absolute; top: 0; left: 0; width: 6px; height: 100%; z-index: 1;
+}
+.VPDoc div.custom-container.tip::before { background-color: var(--vp-c-tip); }
+.VPDoc div.custom-container.warning::before { background-color: var(--vp-c-warning); }
+.VPDoc div.custom-container.danger::before { background-color: var(--vp-c-danger); }
+.VPDoc div.custom-container.info::before { background-color: var(--vp-c-info); }
+.VPDoc div.custom-container.details::before { background-color: var(--vp-c-details); }
+
+.VPDoc div[class*='custom-container'] p.custom-container-title {
+    font-weight: 700 !important; margin: 0 0 8px 0 !important; padding-left: 20px !important;
+    font-size: 1.05rem; position: relative; color: var(--vp-c-text-1) !important;
+}
+.VPDoc div[class*='custom-container'] p.custom-container-title::after {
+    content: 'i'; position: absolute; left: 0; top: 50%; transform: translateY(-50%);
+    font-family: inherit; font-size: 1.1em; font-weight: bold;
+}
+.VPDoc div.custom-container.tip p.custom-container-title { color: var(--vp-c-tip) !important; }
+.VPDoc div.custom-container.warning p.custom-container-title { color: var(--vp-c-warning) !important; }
+.VPDoc div.custom-container.danger p.custom-container-title { color: var(--vp-c-danger) !important; }
+.VPDoc div.custom-container.info p.custom-container-title { color: var(--vp-c-info) !important; }
+
+/* 2. macOS 代码块 */
 .VPDoc div[class*='language-'] {
-    position: relative; 
-    border: none;
-    border-radius: 8px; 
-    margin: 2rem 0;
-    overflow: hidden; 
-    box-shadow: var(--mac-box-shadow);
-    z-index: 1; 
+    position: relative; border: none; border-radius: 12px; margin: 2rem 0; overflow: hidden;
+    box-shadow: var(--mac-box-shadow); z-index: 1;
 }
-
 .VPDoc div[class*='language-']::before {
-    content: ''; 
-    position: absolute; 
-    top: 0;
-    left: 0;
-    height: var(--mac-header-height); 
-    width: 100%;
-    background-color: var(--mac-header-bg); 
-    border-radius: 8px 8px 0 0; 
-    z-index: 10; 
+    content: ''; position: absolute; top: 0; left: 0; height: var(--mac-header-height); width: 100%;
+    background-color: var(--mac-header-bg); border-radius: 12px 12px 0 0; z-index: 10;
 }
 .VPDoc div[class*='language-']::after {
-    content: '';
-    position: absolute;
-    top: 10px; 
-    left: 12px;
-    height: 10px; 
-    width: 10px;
-    background-color: var(--mac-red); 
-    border-radius: 50%;
-    z-index: 11; 
+    content: ''; position: absolute; top: 10px; left: 12px; height: 10px; width: 10px;
+    background-color: var(--mac-red); border-radius: 50%; z-index: 11;
     box-shadow: 18px 0 0 var(--mac-yellow), 36px 0 0 var(--mac-green);
 }
-
-/* --------------------------------------------------------- */
-/* 4. 代码内容、字体与行号对齐修正 */
-/* --------------------------------------------------------- */
-
 .VPDoc div[class*='language-'] pre {
-    font-family: 'JetBrains Mono', 'Fira Code', 'Hack', 'Consolas', 'Monaco', monospace; 
-    font-size: 0.875em; 
-    line-height: 1.7; 
-
     padding-top: var(--mac-content-start-top) !important; 
-    padding-bottom: var(--vp-code-padding); 
-    padding-left: 24px;
-    padding-right: 24px;
-    
-    position: relative; 
-    z-index: 5; 
+    padding-left: 24px; padding-right: 24px; position: relative; z-index: 5;
 }
-
-.VPDoc div[class*='language-'] .line-numbers,
-.VPDoc div[class*='language-'] .line-numbers-wrapper { 
-    position: absolute;
-    top: 0;
-    left: 0;
-    
-    transform: none; 
-    
-    padding-top: var(--mac-content-start-top) !important; 
-    padding-bottom: var(--vp-code-padding) !important;
-    margin: 0 !important;
-    
-    height: 100%; 
-}
-
-.VPDoc div[class*='language-'] .line-numbers-wrapper span {
-    padding-top: 0 !important; 
-    margin-top: 0 !important;  
-    line-height: var(--vp-code-line-height); 
-}
-
-/* --------------------------------------------------------- */
-/* 5. 语言属性渲染到头部中心 */
-/* --------------------------------------------------------- */
-
+.VPDoc div[class*='language-'] .line-numbers-wrapper { padding-top: var(--mac-content-start-top) !important; }
 .VPDoc div[class*='language-'] .lang {
-    position: absolute;
-    top: 0;
-    right: 0;
-    left: 0; 
-    z-index: 10; 
-    
-    text-align: center;
-    line-height: var(--mac-header-height); 
-    height: var(--mac-header-height);
-    
-    font-size: 0.85rem;
-    font-weight: 500;
-    text-transform: uppercase;
-    
-    color: var(--vp-c-text-1); 
-    background-color: transparent !important; 
-    border-radius: 0;
-    padding: 0;
-    opacity: 0.8; 
+    position: absolute; top: 0; right: 0; left: 0; z-index: 10; text-align: center;
+    line-height: var(--mac-header-height); height: var(--mac-header-height);
+    font-size: 0.85rem; font-weight: 500; text-transform: uppercase;
+    color: var(--vp-c-text-1); background-color: transparent !important; opacity: 0.8;
 }
+.VPDoc div[class*='language-'] .copy { top: 6px !important; right: 6px !important; z-index: 12; }
 
-:root.dark .VPDoc div[class*='language-'] .lang {
-    color: var(--vp-c-text-1); 
+/* 3. 分页/表格/Top */
+.VPDocFooter .next-and-prev-link .pager-link {
+    border: 1px solid var(--vp-c-divider) !important; border-radius: 12px;
+    background-color: var(--vp-c-bg-soft) !important;
+    box-shadow: var(--vp-card-shadow); transition: all 0.3s;
 }
-
-.VPDoc div[class*='language-'] .copy {
-    top: 6px !important; 
-    right: 6px !important;
-    z-index: 12; 
+.VPDocFooter .next-and-prev-link .pager-link:hover {
+    border-color: var(--vp-c-brand-1) !important; transform: translateY(-3px);
+}
+.VPDoc .table-wrapper table {
+    border-radius: 8px !important; box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border: 1px solid var(--vp-c-divider) !important;
+}
+.VPBackToTop {
+    background-color: var(--vp-c-brand-1); color: #fff;
+    box-shadow: 0 4px 12px rgba(var(--vp-c-brand-rgb), 0.4);
 }
 
 
 /* ========================================================= */
-/* 6. 侧边栏 (Sidebar) 导航样式优化 - 采用 Outline 风格 */
+/* PART B: 布局重构 (通用) */
 /* ========================================================= */
+
+/* 1. 导航栏 (Navbar) - 100vw 全屏贯穿 */
+.VPNav {
+    position: fixed !important;
+    top: 0; left: 0; 
+    width: 100vw !important; 
+    height: var(--vp-nav-height);
+    z-index: 60 !important; 
+    
+    background-color: var(--vp-c-bg) !important; 
+    border-bottom: 1px solid var(--vp-c-divider);
+    box-sizing: border-box; 
+}
+.VPNav .VPContainer {
+    max-width: 100% !important; padding: 0 24px !important; margin: 0 !important;
+}
+.VPNavBar { background-color: transparent !important; border-bottom: none !important; }
+
+/* 2. 侧边栏通用样式 (玻璃/阴影) */
+
+/* 
+   ★ 关键修改：隐藏侧边栏内的【重复标题】和【遮罩curtain】 
+*/
+.VPSidebar .VPNavBarTitle, 
+.VPSidebar .curtain { 
+    display: none !important; 
+}
 
 .VPSidebar {
-    background-color: var(--vp-c-bg-soft);
-    border-right: 1px solid var(--vp-c-divider); 
-    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out; 
-    padding-left: 0; 
-    padding-right: 0;
+    z-index: 50 !important; 
+    
+    /* 默认毛玻璃背景 (亮色) */
+    background-color: var(--glass-bg-light) !important;
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    
+    /* 边框与阴影 */
+    border-right: none !important;
+    border: 1px solid var(--glass-border-light); 
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08); 
+    
+    /* 圆角与内边距 */
+    border-radius: 16px !important;
+    padding-top: 20px !important;
+    padding-bottom: 20px !important;
+    
+    /* 交互修复 */
+    overflow-y: auto;
+    pointer-events: auto !important; 
 }
 
-.VPContent > .VPSidebar .text {
-    font-weight: 700;
-    letter-spacing: 0.05em;
-    color: var(--vp-c-text-1);
-    transition: color 0.3s;
+/* 暗色模式适配 */
+:root.dark .VPSidebar {
+    background-color: var(--glass-bg-dark) !important;
+    border: 1px solid var(--glass-border-dark) !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
+/* 侧边栏链接 - 纯色极简风格 */
 .VPSidebar .link {
-    border-radius: 0;
-    border: none;
-    line-height: 1.6;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-
-    position: relative;
-    padding: 8px 16px 8px 20px; 
-    background-color: transparent !important; 
-    
-    box-shadow: none !important;
-    border: none !important;
-    margin: 0;
-}
-
-.VPSidebar .link:hover {
-    background-color: var(--vp-c-bg-alt) !important; 
-    color: var(--vp-c-text-1);
-    transform: none; 
-    border-color: transparent !important;
-}
-
-.VPSidebar .link.active {
-    background-color: var(--vp-c-bg-alt) !important; 
-    color: var(--vp-c-brand-1);
-    font-weight: 600; 
-    transform: translateX(0px); 
-    border-color: transparent !important;
-}
-
-.VPSidebar .link::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 8px; 
-    transform: translateY(-50%);
-    width: 3px; 
-    height: 3px; 
-    border-radius: 50%;
-    background-color: var(--vp-c-divider); 
-    transition: all 0.25s;
-}
-
-.VPSidebar .link.active::before {
-    background-color: var(--vp-c-brand-1); 
-    width: 6px; 
-    height: 6px; 
-    left: 5px; 
-}
-
-/* --------------------------------------------------------- */
-/* 7. 文章大纲 (Outline/Table of Contents) 样式优化 */
-/* --------------------------------------------------------- */
-
-.VPDoc aside {
-    padding-left: 20px; 
-    border-left: 1px solid var(--vp-c-divider); 
-    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out; 
-}
-
-.VPDoc aside .outline-title {
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: var(--vp-c-text-1);
-    padding-bottom: 8px;
-    margin-bottom: 12px;
-    border-bottom: 1px dashed var(--vp-c-divider); 
-}
-
-.VPDoc aside .outline-marker + ul {
-    padding-left: 0;
-    list-style: none;
-    position: relative;
-}
-
-.VPDoc aside li {
-    line-height: 1.5;
-    padding: 6px 0;
-    position: relative;
-}
-
-.VPDoc aside a {
-    font-size: 0.95rem;
-    color: var(--vp-c-text-2);
-    transition: color 0.25s;
-}
-
-.VPDoc aside a:hover {
-    color: var(--vp-c-brand-1);
-}
-
-.VPDoc aside a.active {
-    color: var(--vp-c-brand-1);
-    font-weight: 500;
-}
-
-.VPDoc aside .outline-link {
-    border-left: none !important;
-    position: relative;
-    padding-left: 14px; 
-}
-
-.VPDoc aside .outline-link::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 0;
-    transform: translateY(-50%);
-    width: 3px; 
-    height: 3px; 
-    border-radius: 50%;
-    background-color: var(--vp-c-divider); 
-    transition: all 0.25s;
-}
-
-.VPDoc aside a.active::before {
-    background-color: var(--vp-c-brand-1); 
-    width: 6px; 
-    height: 6px; 
-    left: -1px; 
-}
-
-.VPDoc aside .outline-list .outline-list {
-    margin-left: 15px; 
-}
-
-.VPDoc aside .outline-list .outline-list a {
-    font-size: 0.9rem; 
-}
-
-/* ========================================================= */
-/* 8. UX 优化：平滑滚动与过渡效果 */
-/* ========================================================= */
-
-html {
-  scroll-behavior: smooth; 
-}
-
-.VPSidebar,
-.VPDoc aside {
-    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
-}
-
-.VPSidebar .link {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-
-/* ========================================================= */
-/* 9. 文章页：上下页切换链接 (Paging Links) 样式优化 */
-/* ========================================================= */
-
-.VPDocFooter .next-and-prev-link {
-    display: flex;
-    justify-content: space-between;
-    gap: 16px;
-    margin-top: 40px; 
-    border-top: 1px solid var(--vp-c-divider); 
-    padding-top: 24px;
-}
-
-.VPDocFooter .next-and-prev-link .pager-link {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    
-    border: 1px solid var(--vp-c-divider) !important;
-    border-radius: 12px; 
-    padding: 20px 24px;
-    flex: 1; 
-    min-height: 100px;
-    
-    background-color: var(--vp-c-bg-soft) !important;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04); /* 保持不变，由 hover 强化 */
-}
-
-:root.dark .VPDocFooter .next-and-prev-link .pager-link {
-    box-shadow: 0 4px 10px rgba(255, 255, 255, 0.02);
-}
-
-.VPDocFooter .next-and-prev-link .pager-link:hover {
-    border-color: var(--vp-c-brand-1) !important; 
-    box-shadow: 0 6px 15px rgba(var(--vp-c-brand-rgb), 0.1);
-    transform: translateY(-3px); 
-}
-
-.VPDocFooter .next-and-prev-link .pager-link .text {
-    font-size: 0.85rem;
-    color: var(--vp-c-text-2) !important; 
-    margin-bottom: 4px;
-    transition: color 0.3s;
-}
-
-.VPDocFooter .next-and-prev-link .pager-link .title {
-    font-size: 1.05rem;
-    color: var(--vp-c-brand-1) !important; 
-    font-weight: 700; 
-    line-height: 1.4;
-    transition: color 0.3s;
-}
-
-.VPDocFooter .next-and-prev-link .pager-link.next {
-    text-align: right;
-}
-.VPDocFooter .next-and-prev-link .pager-link .icon {
-    width: 18px;
-    height: 18px;
-    fill: var(--vp-c-brand-1) !important; 
-}
-.VPDocFooter .next-and-prev-link .pager-link.prev .icon {
-    margin-right: 8px;
-}
-.VPDocFooter .next-and-prev-link .pager-link.next .icon {
-    margin-left: 8px;
-}
-
-
-/* ========================================================= */
-/* 11. Markdown 表格样式优化 */
-/* ========================================================= */
-
-.VPDoc .table-wrapper {
-    display: flex !important; 
-    justify-content: center !important;
-    margin: 2rem 0 !important;
-    overflow-x: auto; 
-}
-
-.VPDoc .table-wrapper table {
-    width: auto !important; 
-    min-width: 500px !important; 
-    max-width: 100% !important;
-    
-    border-collapse: collapse !important;
-    margin: 0 !important; 
-    
-    border: 1px solid var(--vp-c-divider) !important;
     border-radius: 8px !important;
-    overflow: hidden !important; 
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); /* 保持不变 */
-    
-    font-size: 0.95rem;
-    line-height: 1.5;
+    margin: 4px 12px !important;
+    padding: 10px 14px !important;
+    transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+    border: none !important;
+}
+.VPSidebar .link:hover {
+    background-color: var(--vp-c-bg-alt) !important;
+    transform: translateX(4px);
+}
+/* 选中态：纯色柔和背景 */
+.VPSidebar .link.active {
+    background-color: var(--vp-c-brand-soft) !important; 
+    color: var(--vp-c-brand-1) !important; 
+    font-weight: 600;
+    box-shadow: none !important; 
+    transform: translateX(0);
+}
+.VPSidebar .link.active .text { color: var(--vp-c-brand-1) !important; }
+
+
+/* ========================================================= */
+/* PART C: 桌面端布局 (Desktop >= 960px) */
+/* ========================================================= */
+@media (min-width: 960px) {
+    .VPSidebar {
+        position: fixed !important;
+        top: calc(var(--vp-nav-height) + var(--sidebar-gap-top)) !important; 
+        bottom: var(--sidebar-gap-bottom) !important;
+        left: var(--sidebar-gap-left) !important;
+        width: var(--vp-sidebar-width) !important;
+    }
+
+    .VPContent.has-sidebar {
+        padding-left: calc(var(--vp-sidebar-width) + var(--sidebar-gap-left) + 32px) !important;
+        padding-right: 32px !important;
+        padding-top: calc(var(--vp-nav-height) + 32px) !important;
+    }
+    .VPContent.has-sidebar .VPDoc {
+        width: 100% !important; max-width: 100% !important; padding: 0 !important;
+    }
+    .VPContent.has-sidebar .VPDoc .container {
+        max-width: 1100px !important; margin: 0 auto !important; 
+        display: flex; justify-content: center;
+    }
+    .VPContent.has-sidebar .VPDoc .content { max-width: 800px; width: 100%; }
+    .VPContent.has-sidebar .VPDoc .aside { display: block !important; padding-left: 32px; }
 }
 
-.VPDoc .table-wrapper th {
-    background-color: var(--vp-table-header-bg) !important; 
-    color: var(--vp-c-text-1) !important;
-    font-weight: 700 !important;
-    border-bottom: 2px solid var(--vp-c-divider) !important;
-    padding: 12px 18px !important;
-    text-align: center !important; 
-    border-right: 1px solid var(--vp-c-divider) !important;
-}
-.VPDoc .table-wrapper th:last-child {
-    border-right: none !important;
-}
-
-
-.VPDoc .table-wrapper td {
-    padding: 10px 18px !important;
-    border-bottom: 1px solid var(--vp-c-divider) !important;
-    color: var(--vp-c-text-2) !important;
-    text-align: center !important; 
-    border-right: 1px solid var(--vp-c-divider) !important;
-}
-.VPDoc .table-wrapper td:last-child {
-    border-right: none !important;
-}
-
-.VPDoc .table-wrapper tr:nth-child(2n) {
-    background-color: var(--vp-table-stripe-bg) !important;
-}
-
-.VPDoc .table-wrapper tr:last-child td {
-    border-bottom: none !important;
+/* 中等屏幕适配 (Tablet) */
+@media (min-width: 960px) and (max-width: 1279px) {
+    .VPContent.has-sidebar .VPDoc .aside { display: none !important; }
 }
 
 
 /* ========================================================= */
-/* 10. 文章页：返回顶部 (Back-to-Top) 按钮样式 */
+/* PART D: 手机端完全修复 (Mobile < 960px) */
 /* ========================================================= */
-
-.VPBackToTop {
-    right: 20px; 
-    bottom: 20px;
+@media (max-width: 960px) {
     
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    background-color: var(--vp-c-brand-1); 
-    color: var(--vp-c-bg); 
-    border: none;
-    cursor: pointer;
-    opacity: 0.8; 
-    transition: all 0.3s ease;
+    /* 1. 导航栏内边距 */
+    .VPNav .VPContainer { padding: 0 16px !important; }
     
-    box-shadow: 0 4px 12px rgba(var(--vp-c-brand-rgb), 0.3);
-}
-
-.VPBackToTop:hover {
-    opacity: 1;
-    transform: translateY(-2px);
-    background-color: var(--vp-c-brand-2);
-    box-shadow: 0 6px 16px rgba(var(--vp-c-brand-rgb), 0.4);
-}
-
-.VPBackToTop svg {
-    fill: currentColor; 
-}
-
-
-/* ========================================================= */
-/* A. 全局布局修改 (导航栏全宽内容 & 主内容区域调整) */
-/* ========================================================= */
-
-.VPNav .VPContainer {
-    max-width: 100vw !important; 
-    padding-left: 32px;
-    padding-right: 32px;
-}
-
-.VPContent .VPContainer {
-    padding-left: 20px;
-    padding-right: 20px;
-}
-
-
-/* ------------------------------------------------------------- */
-/* 移动端适配 */
-/* ------------------------------------------------------------- */
-@media (max-width: 768px) {
-    .VPDocFooter .next-and-prev-link {
-        flex-direction: column;
-        gap: 12px;
+    /* 2. 手机端目录栏 (VPLocalNav) - 毛玻璃 + z-index控制 */
+    .VPLocalNav {
+        position: sticky !important;
+        top: var(--vp-nav-height) !important;
+        z-index: 55 !important; 
+        
+        background-color: var(--glass-bg-light) !important;
+        backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+        border-bottom: 1px solid var(--vp-c-divider);
+        padding-left: 16px;
     }
-    .VPDocFooter .next-and-prev-link .pager-link {
-        width: 100%;
+    :root.dark .VPLocalNav { background-color: var(--glass-bg-dark) !important; }
+    
+    /* 
+       3. 手机端侧边栏 - 位置修复
+       top = NavHeight(64) + LocalNavHeight(48) + Gap(10) = ~122px
+       这样它会刚好位于“目录栏”的下方
+    */
+    .VPSidebar {
+        position: fixed !important;
+        top: calc(var(--vp-nav-height) + var(--vp-local-nav-height) + 10px) !important;
+        left: 10px !important;
+        right: 10px !important; 
+        bottom: 10px !important;
+        width: auto !important;
+        
+        overflow-y: auto !important;
+        overscroll-behavior: contain;
+        
+        box-shadow: 0 10px 40px rgba(0,0,0,0.15) !important;
     }
     
-    .VPBackToTop {
-        right: 15px;
-        bottom: 15px;
-        width: 40px;
-        height: 40px;
+    /* 手机端侧边栏标题 (显示) */
+    .VPSidebar .VPNavBarTitle { 
+        display: flex !important; 
+        padding: 10px 10px 20px 10px;
+        border-bottom: 1px dashed var(--vp-c-divider);
+        margin-bottom: 10px;
     }
     
-    .VPDoc .table-wrapper {
-        justify-content: flex-start !important;
-        border-radius: 0;
-    }
-    .VPDoc .table-wrapper table {
-        border-radius: 0 !important;
+    /* 手机端链接样式 (还原) */
+    .VPSidebar .link { border-radius: 0 !important; margin: 0 !important; }
+    .VPSidebar .link.active { background: transparent !important; color: var(--vp-c-brand-1) !important; box-shadow: none !important; }
+    .VPSidebar .link.active .text { color: var(--vp-c-brand-1) !important; }
+
+    /* 4. 内容区域修正 */
+    .VPContent { padding-top: var(--vp-nav-height) !important; }
+    .VPDoc { padding: 20px 16px !important; }
+    
+    /* 5. 遮罩层 */
+    .VPBackdrop {
+        z-index: 45 !important;
+        background-color: rgba(0,0,0,0.3) !important;
+        backdrop-filter: blur(3px);
     }
 }

@@ -4,7 +4,7 @@ tags:
   - python
 order: 1
 ---
-# python虚拟环境
+# Python虚拟环境
 ## 创建python虚拟环境
 
 1. 使用venv模块，创建名为`myvenv`的虚拟环境
