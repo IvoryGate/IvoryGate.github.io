@@ -1,8 +1,10 @@
 ---
-Date: Thu Sep 18 2025 22:29:29 GMT+0800
+title: Python异常处理
+date: Thu Sep 18 2025 22:29:29 GMT+0800
 tags:
   - python
-order: 3
+cover: /python0.webp
+description: 本文将深入剖析Python异常处理
 ---
 # Python异常处理
 

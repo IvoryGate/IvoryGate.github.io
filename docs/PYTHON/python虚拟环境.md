@@ -1,8 +1,10 @@
 ---
-Date: Thu Sep 18 2025 22:29:29 GMT+0800
+title: Python虚拟环境
+date: Thu Sep 18 2025 22:29:29 GMT+0800
 tags:
   - python
-order: 1
+cover: /python0.webp
+description: 本文简单介绍了python虚拟环境的创建、激活和退出
 ---
 # Python虚拟环境
 ## 创建python虚拟环境

@@ -3,7 +3,7 @@ import { computed } from 'vue'
 import { data as moments } from '../../../moments.data'
 
 // --- 配置项 ---
-const USER_AVATAR = '/xiaolan.jpg' 
+const USER_AVATAR = '/xiaolan.webp' 
 const COVER_BG_IMG = '/moents_head_card.webp' 
 const PAGE_TITLE = '我的朋友圈' 
 const USER_NICKNAME = 'IvoryGate' 
