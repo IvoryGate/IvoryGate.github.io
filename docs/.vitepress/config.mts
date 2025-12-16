@@ -1,6 +1,7 @@
 import { defineConfig } from 'vitepress'
 import { generateSidebar } from 'vitepress-sidebar'
 import { withMermaid } from 'vitepress-plugin-mermaid'
+import markdownItTaskList from 'markdown-it-task-lists';
 
 // https://vitepress.dev/reference/site-config
 export default withMermaid(defineConfig({
@@ -24,8 +25,8 @@ export default withMermaid(defineConfig({
     sidebar: generateSidebar([
       {
         documentRootPath: 'docs',
-        scanStartPath: 'PYTHON',
-        resolvePath: '/PYTHON/',
+        scanStartPath: 'python',
+        resolvePath: '/python/',
         useTitleFromFileHeading: true,
         collapsed: false,         // 是否折叠
         sortMenusByFrontmatterOrder: true
@@ -33,8 +34,8 @@ export default withMermaid(defineConfig({
       },
       {
         documentRootPath: 'docs',
-        scanStartPath: 'GIT',
-        resolvePath: '/GIT/',
+        scanStartPath: 'git',
+        resolvePath: '/git/',
         useTitleFromFileHeading: true,
         collapsed: false,         // 是否折叠
         sortMenusByFrontmatterOrder: true
@@ -42,8 +43,17 @@ export default withMermaid(defineConfig({
       },
       {
         documentRootPath: 'docs',
-        scanStartPath: 'ADPLACEMENT',
-        resolvePath: '/ADPLACEMENT/',
+        scanStartPath: 'Ads',
+        resolvePath: '/Ads/',
+        useTitleFromFileHeading: true,
+        collapsed: false,         // 是否折叠
+        sortMenusByFrontmatterOrder: true
+        // manualSortFileNameByPriority: ['intro.md', 'installation.md'] // 手动排序
+      },
+      {
+        documentRootPath: 'docs',
+        scanStartPath: 'English',
+        resolvePath: '/English/',
         useTitleFromFileHeading: true,
         collapsed: false,         // 是否折叠
         sortMenusByFrontmatterOrder: true
@@ -80,6 +90,12 @@ export default withMermaid(defineConfig({
   },
   markdown: {
     math: true,
-    lineNumbers: true
+    lineNumbers: true,
+    config: (md) => {
+      // 使用 markdown-it-task-lists 插件
+      // 默认配置下，复选框是禁用的（disabled），需要点击才能更改状态。
+      // 传入 true，表示复选框在非渲染状态下也是可交互的。
+      md.use(markdownItTaskList, { enabled: true }); 
+    }
   },
 }))
