@@ -1,0 +1,111 @@
+/* .vitepress/theme/mermaid-theme.css - Mermaid 定制样式 */
+
+/*
+  -----------------------------------------------
+  全局变量继承：确保 Mermaid 使用主题色
+  -----------------------------------------------
+*/
+
+/* 默认模式 (亮色) */
+:root {
+  /* 节点背景色：使用柔和的背景色，避免纯白 */
+  --mermaid-node-bg: var(--vp-c-bg-soft);
+  /* 节点边框色：使用品牌色的一级或二级色 */
+  --mermaid-node-border: var(--vp-c-brand-2);
+  /* 文本颜色：使用主要文本色 */
+  --mermaid-text-color: var(--vp-c-text-1);
+  /* 强调/活动节点颜色：使用品牌色 */
+  --mermaid-active-color: var(--vp-c-brand-1);
+  /* 链接/箭头颜色：使用品牌色 */
+  --mermaid-line-color: var(--vp-c-brand-1);
+  /* 辅助背景 (如子图) */
+  --mermaid-subgraph-bg: var(--vp-c-bg-alt);
+}
+
+/* 暗色模式适配 */
+:root.dark {
+  --mermaid-node-bg: var(--vp-c-bg-soft);
+  --mermaid-node-border: var(--vp-c-brand-2);
+  --mermaid-text-color: var(--vp-c-text-1);
+  --mermaid-active-color: var(--vp-c-brand-1);
+  --mermaid-line-color: var(--vp-c-brand-1);
+  --mermaid-subgraph-bg: var(--vp-c-bg-alt);
+}
+
+
+/*
+  -----------------------------------------------
+  Mermaid 样式重写 (CSS Selector)
+  -----------------------------------------------
+*/
+
+/* 1. 节点基础样式 (Nodes) */
+.mermaid .node rect,
+.mermaid .node circle,
+.mermaid .node polygon,
+.mermaid .node ellipse {
+  /* 使用变量定义的背景和边框 */
+  fill: var(--mermaid-node-bg) !important;
+  stroke: var(--mermaid-node-border) !important;
+  stroke-width: 2px !important;
+  /* 现代感的圆角 */
+  rx: 8px !important;
+  ry: 8px !important;
+  /* 添加轻微的阴影效果，与您的卡片阴影保持一致 */
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.05));
+  transition: all 0.3s ease-in-out;
+}
+
+/* 2. 节点文本样式 */
+.mermaid text {
+  font-family: var(--vp-font-family); /* 继承 VitePress 字体 */
+  fill: var(--mermaid-text-color) !important;
+  font-weight: 500;
+  transition: fill 0.3s ease-in-out;
+}
+
+/* 3. 链接/箭头样式 (Links/Edges) */
+.mermaid .edge path.flowchart-link,
+.mermaid .edge path.relation {
+  stroke: var(--mermaid-line-color) !important;
+  stroke-width: 2px !important;
+  /* 虚线效果增加时尚感 (可选) */
+  /* stroke-dasharray: 5, 5; */
+  transition: stroke 0.3s ease-in-out;
+}
+
+/* 4. 箭头头样式 (Arrowheads) */
+.mermaid .edge .arrowheadPath {
+  fill: var(--mermaid-line-color) !important;
+  transition: fill 0.3s ease-in-out;
+}
+
+/* 5. 活动/强调节点 (Active/Highlight Nodes) */
+.mermaid .node.active rect,
+.mermaid .node.active circle,
+.mermaid .node.active polygon,
+.mermaid .node.active ellipse {
+  /* 强调时使用更亮的品牌色，并增加边框厚度 */
+  stroke: var(--mermaid-active-color) !important;
+  stroke-width: 3px !important;
+  filter: drop-shadow(0 4px 8px rgba(var(--vp-c-brand-rgb), 0.3)); /* 品牌色阴影 */
+}
+
+/* 6. 子图 (Subgraphs) */
+.mermaid .cluster rect {
+  fill: var(--mermaid-subgraph-bg) !important;
+  stroke: var(--mermaid-node-border) !important;
+  stroke-dasharray: 5, 5; /* 子图使用虚线边框 */
+  rx: 12px !important;
+  ry: 12px !important;
+}
+
+/* 7. 流程图标签文本 */
+.mermaid .edgeLabel rect {
+    fill: var(--mermaid-node-bg) !important;
+    opacity: 0.9;
+    stroke: none;
+}
+.mermaid .edgeLabel text {
+    fill: var(--mermaid-text-color) !important;
+}

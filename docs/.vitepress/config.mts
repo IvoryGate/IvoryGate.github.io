@@ -1,11 +1,16 @@
 import { defineConfig } from 'vitepress'
 import { generateSidebar } from 'vitepress-sidebar'
+import { withMermaid } from 'vitepress-plugin-mermaid'
 
 // https://vitepress.dev/reference/site-config
-export default defineConfig({
+export default withMermaid(defineConfig({
   head: [["link", { rel: "icon", href: "/folder.svg" }]],
   title: "风驻云不归的博客",
   description: "Personal Knowledge Base",
+  mermaid: {
+    // 例如：设置默认主题
+    theme: 'default', 
+  },
   themeConfig: {
     logo: "/folder.svg",
     outlineTitle: "目录",
@@ -21,6 +26,24 @@ export default defineConfig({
         documentRootPath: 'docs',
         scanStartPath: 'PYTHON',
         resolvePath: '/PYTHON/',
+        useTitleFromFileHeading: true,
+        collapsed: false,         // 是否折叠
+        sortMenusByFrontmatterOrder: true
+        // manualSortFileNameByPriority: ['intro.md', 'installation.md'] // 手动排序
+      },
+      {
+        documentRootPath: 'docs',
+        scanStartPath: 'GIT',
+        resolvePath: '/GIT/',
+        useTitleFromFileHeading: true,
+        collapsed: false,         // 是否折叠
+        sortMenusByFrontmatterOrder: true
+        // manualSortFileNameByPriority: ['intro.md', 'installation.md'] // 手动排序
+      },
+      {
+        documentRootPath: 'docs',
+        scanStartPath: 'ADPLACEMENT',
+        resolvePath: '/ADPLACEMENT/',
         useTitleFromFileHeading: true,
         collapsed: false,         // 是否折叠
         sortMenusByFrontmatterOrder: true
@@ -59,4 +82,4 @@ export default defineConfig({
     math: true,
     lineNumbers: true
   },
-})
+}))
