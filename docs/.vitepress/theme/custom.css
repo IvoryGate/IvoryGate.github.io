@@ -1,4 +1,4 @@
-/* .vitepress/theme/custom.css - 最终完美版 (已设置 VPSidebar 32px 内边距) */
+/* .vitepress/theme/custom.css - 恢复默认布局版本 (保留视觉美化) */
 
 /* ========================================================= */
 /* 0A. 字体导入 */
@@ -12,7 +12,8 @@
 /* ========================================================= */
 html {
   scroll-behavior: smooth !important;
-  scroll-padding-top: calc(var(--vp-nav-height) + 50px);
+  /* 保留滚动内边距 */
+  scroll-padding-top: calc(var(--vp-nav-height) + 50px); 
   
   /* ------------------------------------------------ */
   /* ★ 字体配置：仿宋 (中文) + Merriweather (英文) ★ */
@@ -41,34 +42,31 @@ html {
   --vp-container-bg: #fcfdff;   
   --vp-card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); 
   
-  /* 布局变量 */
+  /* 布局变量 (恢复或保留默认值，但仅作为变量存在) */
   --vp-nav-height: 64px; 
   --vp-local-nav-height: 48px; 
-  --vp-sidebar-width: 280px;
+  --vp-sidebar-width: 256px; /* 恢复为默认值，避免冲突 */
   
-  /* 侧边栏卡片间距变量 (统一设置为 32px) */
-  --sidebar-gap-top: 32px; /* ★ 修改为 32px ★ */
-  --sidebar-gap-left: 32px; /* ★ 修改为 32px ★ */
-  --sidebar-gap-bottom: 32px; /* ★ 修改为 32px ★ */
-  /* 侧边栏与内容区的间隔 */
+  /* 侧边栏卡片间距变量 (保留，但不再用于布局计算) */
+  --sidebar-gap-top: 32px; 
+  --sidebar-gap-left: 32px; 
+  --sidebar-gap-bottom: 32px; 
   --sidebar-content-gap: 32px; 
-  /* 侧边栏总宽度（含内容与内容间距） */
-  --sidebar-full-width: calc(var(--vp-sidebar-width) + var(--sidebar-content-gap));
-  /* 内容区最大宽度 (用于居中计算) */
+  
+  /* 内容区变量 (保留) */
   --vp-layout-max-width: 1440px; 
-  /* 核心内容区域宽度 (VitePress 默认设置) */
   --doc-content-width: 800px; 
   
-  /* 代码字体变量 */
+  /* 代码字体变量 (保留) */
   --vp-font-family-mono: 'JetBrains Mono', Consolas, 'Courier New', monospace;
 
-  /* 毛玻璃配置 */
+  /* 毛玻璃配置 (保留) */
   --glass-bg-light: rgba(255, 255, 255, 0.85);
   --glass-bg-dark: rgba(30, 32, 40, 0.85);
   --glass-border-light: rgba(255, 255, 255, 0.6);
   --glass-border-dark: rgba(255, 255, 255, 0.1);
 
-  /* Mac代码块变量 */
+  /* Mac代码块变量 (保留) */
   --mac-red: #ff5c5a; --mac-yellow: #ffc22e; --mac-green: #2ecc71;
   --mac-header-height: 30px; --vp-code-padding: 16px;
   --mac-header-bg: #ebeef0; --mac-box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
@@ -78,6 +76,7 @@ html {
 :root.dark {
   /* --- 暗色模式 --- */
   --vp-c-bg: #1a202c;
+  /* ... 保持暗色变量不变 ... */
   --vp-c-bg-soft: #252d3a;
   --vp-c-bg-alt: #1f2530;
   --vp-c-text-1: #f1f5f9;
@@ -97,7 +96,7 @@ html {
 }
 
 /* ========================================================= */
-/* PART B: 字体应用 (JetBrains Mono) */
+/* PART B: 字体应用 (JetBrains Mono) - 保留 */
 /* ========================================================= */
 .VPDoc code, 
 .VPDoc div[class*='language-'] pre,
@@ -106,7 +105,7 @@ html {
 }
 
 /* ========================================================= */
-/* PART A: 组件样式 (代码块/卡片/表格/按钮) */
+/* PART A: 组件样式 (代码块/卡片/表格/按钮) - 保留 */
 /* ========================================================= */
 
 /* 1. Custom Containers */
@@ -185,7 +184,7 @@ html {
 
 
 /* ========================================================= */
-/* PART E: 图片增强样式 (Images) */
+/* PART E: 图片增强样式 (Images) - 保留 */
 /* ========================================================= */
 
 .VPDoc img {
@@ -235,205 +234,3 @@ html {
     box-shadow: none !important; 
 }
 
-
-/* ========================================================= */
-/* PART C: 桌面端布局 (Desktop >= 960px) */
-/* ========================================================= */
-@media (min-width: 960px) {
-    /* 1. 文档布局容器 (VPDoc) 居中控制 */
-    .VPContent.has-sidebar .VPDoc {
-        max-width: var(--vp-layout-max-width) !important; 
-        margin: 0 auto !important;
-        position: relative; 
-        display: block !important;
-        padding: 0 !important;
-        padding-top: 32px;
-        padding-bottom: 96px; 
-    }
-    
-    /* 2. 左侧侧边栏 (VPSidebar) - 固定定位 + 动态计算 LEFT 值 */
-    .VPSidebar {
-        position: fixed !important; 
-        
-        /* 使用 32px 的全局变量 */
-        top: calc(var(--vp-nav-height) + var(--sidebar-gap-top)) !important; 
-        bottom: var(--sidebar-gap-bottom) !important; 
-        width: var(--vp-sidebar-width) !important;
-        
-        /* 动态计算 LEFT 值，使其对齐居中内容区的左边界 */
-        left: calc(
-            50vw - 
-            (var(--vp-layout-max-width) / 2) + 
-            var(--sidebar-gap-left)
-        ) !important;
-        
-        /* 侧边栏卡片样式 */
-        border-radius: 16px !important; 
-        box-shadow: var(--vp-card-shadow) !important;
-        border: 1px solid var(--vp-c-divider) !important; 
-        background-color: var(--vp-c-bg-soft) !important; 
-        
-        /* ★ 修改：侧边栏自身的垂直 padding 为 32px ★ */
-        padding-top: 32px !important; 
-        padding-bottom: 32px !important;
-    }
-    
-    /* 移除默认侧边栏的边框 */
-    .VPSidebar .vp-sidebar-menu { 
-        border-right: none !important; 
-    }
-    
-    /* 侧边栏内容组的间距调整 (确保内部列表的左侧也有 32px 间距) */
-    .VPSidebar .group {
-        /* 移除或覆盖 VitePress 默认的左侧 padding，统一使用 32px */
-        padding-left: 32px !important;
-        padding-right: 32px !important;
-    }
-    
-    /* 侧边栏的链接/标题在 group 内部，确保它们不受影响或统一左侧边距 */
-    .VPSidebar .link { 
-        padding-left: 0 !important; /* 让链接左侧对齐 Group 的 32px */
-        padding-right: 0 !important;
-    }
-    
-    /* ---------------------------------------------------- */
-    
-    /* 3. 内容区容器 (VPDoc .container) 调整 */
-    .VPContent.has-sidebar .VPDoc .container {
-        max-width: 100% !important; 
-        margin: 0 !important;
-        padding: 0 !important;
-        
-        display: grid;
-        grid-template-columns: var(--doc-content-width) minmax(0, 256px); 
-        
-        /* 强制内容区域从左侧移开，给侧边栏留出空间 */
-        margin-left: var(--sidebar-full-width); 
-        padding-right: 32px; 
-    }
-    
-    /* 4. 文档主体内容 (VPDoc .content) */
-    .VPContent.has-sidebar .VPDoc .content { 
-        grid-column: 1 / 2; 
-        width: 100%; 
-        max-width: var(--doc-content-width); 
-    }
-    
-    /* 5. 右侧边栏/目录 (VPDoc .aside) */
-    .VPContent.has-sidebar .VPDoc .aside { 
-        grid-column: 2 / 3; 
-        padding-left: 32px;
-        position: sticky !important;
-        top: calc(var(--vp-nav-height) + 32px) !important;
-        max-width: 100%;
-        display: block !important; 
-    }
-    .curtain {
-        display: none !important;
-    }
-}
-
-/* 中等屏幕适配 (Tablet) */
-@media (min-width: 960px) and (max-width: 1279px) {
-    /* 侧边栏贴着左边缘固定 */
-    .VPSidebar {
-        left: var(--sidebar-gap-left) !important; /* 使用 32px 变量 */
-    }
-    /* 内容区向右偏移，为侧边栏留出空间 */
-    .VPContent.has-sidebar .VPDoc .container {
-        margin-left: var(--sidebar-full-width);
-        padding-right: 32px;
-    }
-    /* 隐藏右侧边栏 */
-    .VPContent.has-sidebar .VPDoc .aside { display: none !important; }
-    .curtain {
-        display: none !important;
-    }
-}
-
-
-/* ========================================================= */
-/* PART D: 手机端完全修复 (Mobile < 960px) */
-/* ========================================================= */
-@media (max-width: 960px) {
-    
-    /* 1. 导航栏内边距 - 保持不变 */
-    .VPNav .VPContainer { padding: 0 16px !important; }
-    
-    /* 2. 手机端目录栏 (VPLocalNav) - 保持不变 */
-    .VPLocalNav {
-        position: sticky !important;
-        top: var(--vp-nav-height) !important;
-        z-index: 55 !important; 
-        
-        background-color: var(--glass-bg-light) !important;
-        backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-        border-bottom: 1px solid var(--vp-c-divider);
-        padding-left: 16px;
-    }
-    :root.dark .VPLocalNav { background-color: var(--glass-bg-dark) !important; }
-    
-    /* 3. 手机端侧边栏 - 修正 top 值 */
-    .VPSidebar {
-        position: fixed !important;
-        top: calc(var(--vp-nav-height) + var(--vp-local-nav-height) + 10px) !important;
-        left: 10px !important;
-        right: 10px !important; 
-        bottom: 10px !important;
-        width: auto !important;
-        
-        overflow-y: auto !important;
-        overscroll-behavior: contain;
-        
-        box-shadow: 0 10px 40px rgba(0,0,0,0.15) !important;
-        
-        /* ★ 修改：侧边栏自身的垂直 padding 为 32px ★ */
-        padding-top: 32px !important; 
-        padding-bottom: 32px !important;
-    }
-    
-    /* 手机端侧边栏标题/链接样式 - 统一左侧 padding */
-    .VPSidebar .VPNavBarTitle { 
-        display: flex !important; 
-        /* 统一使用 32px 间距 */
-        padding: 10px 32px 20px 32px !important; /* ★ 修改左/右 padding 为 32px ★ */
-        border-bottom: 1px dashed var(--vp-c-divider);
-        margin-bottom: 10px;
-    }
-    /* 侧边栏内容组的间距调整 (确保内部列表的左侧也有 32px 间距) */
-    .VPSidebar .group {
-        /* 移除或覆盖 VitePress 默认的左侧 padding，统一使用 32px */
-        padding-left: 32px !important;
-        padding-right: 32px !important;
-    }
-    
-    .VPSidebar .link { 
-        padding-left: 0 !important; /* 让链接左侧对齐 Group 的 32px */
-        padding-right: 0 !important;
-        border-radius: 0 !important; 
-        margin: 0 !important; 
-    }
-    
-    .VPSidebar .link.active { background: transparent !important; color: var(--vp-c-brand-1) !important; box-shadow: none !important; }
-    .VPSidebar .link.active .text { color: var(--vp-c-brand-1) !important; }
-
-    /* 4. 内容区域修正 - 确保内容被推到导航栏下方 */
-    .VPContent { 
-        padding-top: calc(var(--vp-nav-height) + var(--vp-local-nav-height) + 20px) !important; 
-        padding-bottom: 96px; 
-    }
-    .VPDoc { padding: 0 16px !important; }
-    
-    /* 5. 遮罩层 - 移除 VPBackdrop 遮罩层显示 */
-    .VPBackdrop {
-        display: none !important; 
-        z-index: 45 !important;
-        background-color: transparent !important;
-        backdrop-filter: none !important;
-    }
-    
-    /* 额外: 隐藏 .curtain */
-    .curtain {
-        display: none !important;
-    }
-}
