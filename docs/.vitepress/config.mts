@@ -37,7 +37,7 @@ export default withMermaid(defineConfig({
         scanStartPath: 'git',
         resolvePath: '/git/',
         useTitleFromFileHeading: true,
-        collapsed: false,         // 是否折叠
+        collapsed: true,         // 是否折叠
         sortMenusByFrontmatterOrder: true
         // manualSortFileNameByPriority: ['intro.md', 'installation.md'] // 手动排序
       },
@@ -46,7 +46,7 @@ export default withMermaid(defineConfig({
         scanStartPath: 'Ads',
         resolvePath: '/Ads/',
         useTitleFromFileHeading: true,
-        collapsed: false,         // 是否折叠
+        collapsed: true,         // 是否折叠
         sortMenusByFrontmatterOrder: true
         // manualSortFileNameByPriority: ['intro.md', 'installation.md'] // 手动排序
       },
@@ -55,7 +55,7 @@ export default withMermaid(defineConfig({
         scanStartPath: 'English',
         resolvePath: '/English/',
         useTitleFromFileHeading: true,
-        collapsed: false,         // 是否折叠
+        collapsed: true,         // 是否折叠
         sortMenusByFrontmatterOrder: true
         // manualSortFileNameByPriority: ['intro.md', 'installation.md'] // 手动排序
       }
