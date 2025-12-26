@@ -12,7 +12,7 @@ description: 本文简单介绍了python虚拟环境的创建、激活和退出
 1. 使用venv模块，创建名为`myvenv`的虚拟环境
 
 ```bash
-pyhton3 -m venv myvenv
+python3 -m venv myvenv
 ```
 
 2. 激活虚拟环境
