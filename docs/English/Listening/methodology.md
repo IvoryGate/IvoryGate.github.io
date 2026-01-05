@@ -7,7 +7,9 @@ cover: /en0.webp
 description: listening~
 ---
 
-# 语义模块
+# 方法论
+
+## 语义模块
 
 prediction
 
@@ -21,3 +23,10 @@ perceptual restoration
 
 [And we're ready] [to start on a new era] [in international cooperation in space] [and get this space station built]
 
+## how to practice listening
+
+1. choose right listening materials
+   1. choose what you are interested in
+   2. choose that you can understand 70% to 80%
+2. prepare transcripts
+3. focus on one episode
