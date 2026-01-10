@@ -39,7 +39,6 @@ export default withMermaid(defineConfig({
         useTitleFromFileHeading: true,
         collapsed: true,         // 是否折叠
         sortMenusByFrontmatterOrder: true
-        // manualSortFileNameByPriority: ['intro.md', 'installation.md'] // 手动排序
       },
       {
         documentRootPath: 'docs',
@@ -48,7 +47,6 @@ export default withMermaid(defineConfig({
         useTitleFromFileHeading: true,
         collapsed: true,         // 是否折叠
         sortMenusByFrontmatterOrder: true
-        // manualSortFileNameByPriority: ['intro.md', 'installation.md'] // 手动排序
       },
       {
         documentRootPath: 'docs',
@@ -57,7 +55,6 @@ export default withMermaid(defineConfig({
         useTitleFromFileHeading: true,
         collapsed: true,         // 是否折叠
         sortMenusByFrontmatterOrder: true
-        // manualSortFileNameByPriority: ['intro.md', 'installation.md'] // 手动排序
       }
     ]),
     // footer: {
@@ -92,9 +89,6 @@ export default withMermaid(defineConfig({
     math: true,
     lineNumbers: true,
     config: (md) => {
-      // 使用 markdown-it-task-lists 插件
-      // 默认配置下，复选框是禁用的（disabled），需要点击才能更改状态。
-      // 传入 true，表示复选框在非渲染状态下也是可交互的。
       md.use(markdownItTaskList, { enabled: true }); 
     }
   },
