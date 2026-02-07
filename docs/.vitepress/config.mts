@@ -1,11 +1,17 @@
 import { defineConfig } from 'vitepress'
 import { generateSidebar } from 'vitepress-sidebar'
 import { withMermaid } from 'vitepress-plugin-mermaid'
-import markdownItTaskList from 'markdown-it-task-lists';
+import markdownItTaskList from 'markdown-it-task-lists'
+import viteImagemin from 'vite-plugin-imagemin'
 
 // https://vitepress.dev/reference/site-config
 export default withMermaid(defineConfig({
-  head: [["link", { rel: "icon", href: "/folder.svg" }]],
+  head: [
+    ["link", { rel: "icon", href: "/folder.svg" }],
+    ["link", { rel: "preconnect", href: "https://fonts.googleapis.com" }],
+    ["link", { rel: "preconnect", href: "https://fonts.gstatic.com", crossorigin: "" }],
+    ["link", { rel: "preload", href: "/folder.svg", as: "image" }]
+  ],
   title: "风驻云不归的博客",
   description: "Personal Knowledge Base",
   mermaid: {
@@ -19,8 +25,9 @@ export default withMermaid(defineConfig({
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'Home', link: '/' },
-      {text: 'Moments', link: '/moments'},
-      { text: 'Articles', link: '/tags' }
+      { text: 'Moments', link: '/moments'},
+      { text: 'Articles', link: '/tags' },
+      { text: 'Timeline', link: '/articles-timeline' }
     ],
     sidebar: generateSidebar([
       {
@@ -28,33 +35,36 @@ export default withMermaid(defineConfig({
         scanStartPath: 'python',
         resolvePath: '/python/',
         useTitleFromFileHeading: true,
-        collapsed: false,         // 是否折叠
-        sortMenusByFrontmatterOrder: true
-        // manualSortFileNameByPriority: ['intro.md', 'installation.md'] // 手动排序
+        collapsed: false,
+        sortMenusByFrontmatterOrder: true,
+        ignore: ['articles-timeline.md', 'index-index.md', 'moments.md', 'tags.md']
       },
       {
         documentRootPath: 'docs',
         scanStartPath: 'git',
         resolvePath: '/git/',
         useTitleFromFileHeading: true,
-        collapsed: true,         // 是否折叠
-        sortMenusByFrontmatterOrder: true
+        collapsed: true,
+        sortMenusByFrontmatterOrder: true,
+        ignore: ['articles-timeline.md', 'index-index.md', 'moments.md', 'tags.md']
       },
       {
         documentRootPath: 'docs',
         scanStartPath: 'Ads',
         resolvePath: '/Ads/',
         useTitleFromFileHeading: true,
-        collapsed: true,         // 是否折叠
-        sortMenusByFrontmatterOrder: true
+        collapsed: true,
+        sortMenusByFrontmatterOrder: true,
+        ignore: ['articles-timeline.md', 'index-index.md', 'moments.md', 'tags.md']
       },
       {
         documentRootPath: 'docs',
         scanStartPath: 'English',
         resolvePath: '/English/',
         useTitleFromFileHeading: true,
-        collapsed: true,         // 是否折叠
-        sortMenusByFrontmatterOrder: true
+        collapsed: true,
+        sortMenusByFrontmatterOrder: true,
+        ignore: ['articles-timeline.md', 'index-index.md', 'moments.md', 'tags.md']
       }
     ]),
     // footer: {
@@ -89,7 +99,36 @@ export default withMermaid(defineConfig({
     math: true,
     lineNumbers: true,
     config: (md) => {
-      md.use(markdownItTaskList, { enabled: true }); 
+      md.use(markdownItTaskList, { enabled: true });
     }
+  },
+  vite: {
+    build: {
+      minify: 'terser',
+      terserOptions: {
+        compress: {
+          drop_console: true,
+          drop_debugger: true
+        }
+      },
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            'markdown': ['markdown-it', 'markdown-it-mathjax3'],
+            'vue-vendor': ['vue'],
+            'mermaid': ['mermaid'],
+            'icons': ['vitepress-sidebar']
+          }
+        }
+      }
+    },
+    plugins: [
+      viteImagemin({
+        gifsicle: { optimizationLevel: 7 },
+        optipng: { optimizationLevel: 7 },
+        mozjpeg: { quality: 80 },
+        webp: { quality: 75 }
+      })
+    ]
   },
 }))

@@ -234,3 +234,172 @@ html {
     box-shadow: none !important; 
 }
 
+
+/* ========================================================= */
+/* 阅读进度条样式 */
+/* ========================================================= */
+.vp-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #6366f1, #818cf8);
+  transition: width 0.1s;
+  z-index: 9999;
+  box-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
+}
+
+/* 暗色模式进度条 */
+:root.dark .vp-progress {
+  background: linear-gradient(90deg, #6366f1, #a855f7);
+  box-shadow: 0 0 10px rgba(168, 85, 247, 0.5);
+}
+
+/* ========================================================= */
+/* 图片预览样式 */
+/* ========================================================= */
+.image-preview-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.9);
+  backdrop-filter: blur(10px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.image-preview-overlay.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.preview-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.preview-close:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: rotate(90deg);
+}
+
+.preview-content {
+  position: relative;
+  max-width: 90%;
+  max-height: 85%;
+}
+
+.preview-content img {
+  max-width: 100%;
+  max-height: 85vh;
+  object-fit: contain;
+  border-radius: 4px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.preview-content img:hover {
+  transform: scale(1.02);
+}
+
+.preview-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 48px;
+  height: 48px;
+  border: none;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.preview-nav:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.preview-nav:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.preview-nav.prev {
+  left: -24px;
+}
+
+.preview-nav.next {
+  right: -24px;
+}
+
+.preview-indicator {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: white;
+  font-size: 14px;
+  font-family: 'JetBrains Mono', monospace;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 8px 16px;
+  border-radius: 20px;
+}
+
+.preview-hint {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.hint-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.hint-divider {
+  width: 1px;
+  height: 14px;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* 暗色模式 */
+:root.dark .image-preview-overlay {
+  background: rgba(0, 0, 0, 0.95);
+}
+
+:root.dark .preview-close:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+:root.dark .preview-nav:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.15);
+}

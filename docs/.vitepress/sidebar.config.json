@@ -1,0 +1,8 @@
+{
+  "ignore": [
+    "articles-timeline.md",
+    "index-index.md",
+    "moments.md",
+    "tags.md"
+  ]
+}
