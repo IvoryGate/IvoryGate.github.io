@@ -19,6 +19,7 @@
     "gray-matter": "^4.0.3",
     "markdown-it-task-lists": "^2.1.1",
     "mermaid": "^11.12.2",
+    "terser": "^5.46.0",
     "tsx": "^4.21.0",
     "vite-plugin-imagemin": "^0.6.1",
     "vitepress": "^1.6.4",

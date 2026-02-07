@@ -110,16 +110,6 @@ export default withMermaid(defineConfig({
           drop_console: true,
           drop_debugger: true
         }
-      },
-      rollupOptions: {
-        output: {
-          manualChunks: {
-            'markdown': ['markdown-it', 'markdown-it-mathjax3'],
-            'vue-vendor': ['vue'],
-            'mermaid': ['mermaid'],
-            'icons': ['vitepress-sidebar']
-          }
-        }
       }
     },
     plugins: [
