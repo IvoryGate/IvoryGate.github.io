@@ -5,6 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "validate": "tsx scripts/validate-content.ts",
+    "generate-index": "tsx scripts/generate-index.ts",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs"
@@ -14,8 +16,11 @@
   "license": "ISC",
   "type": "module",
   "devDependencies": {
+    "gray-matter": "^4.0.3",
     "markdown-it-task-lists": "^2.1.1",
     "mermaid": "^11.12.2",
+    "tsx": "^4.21.0",
+    "vite-plugin-imagemin": "^0.6.1",
     "vitepress": "^1.6.4",
     "vitepress-plugin-mermaid": "^2.0.17",
     "vitepress-sidebar": "^1.33.1",
