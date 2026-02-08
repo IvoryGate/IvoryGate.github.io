@@ -65,13 +65,13 @@ const style = computed(() => {
 
 <style scoped>
 .iconify-wrapper {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  display: inline-block;
+  vertical-align: -0.125em;
 }
 
 .icon-inline {
-  display: inline;
+  display: inline-block;
+  vertical-align: -0.125em;
 }
 
 @keyframes iconSpin {

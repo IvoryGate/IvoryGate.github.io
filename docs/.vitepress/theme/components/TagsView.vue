@@ -360,6 +360,29 @@ const filteredPosts = computed<ExtendedPost[]>(() => {
   font-weight: var(--font-weight-medium);
 }
 
+.meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  line-height: 1;
+  height: 24px;
+  padding: 0 4px;
+  position: relative;
+}
+
+.meta-item span:not(.iconify-wrapper) {
+  display: inline-flex;
+  align-items: center;
+  line-height: 1;
+  height: 24px;
+}
+
+/* 图标向上偏移4px */
+.meta-item .iconify-wrapper {
+  position: relative;
+  top: -2px;
+}
+
 .meta-icon {
   margin-right: 4px;
 }
