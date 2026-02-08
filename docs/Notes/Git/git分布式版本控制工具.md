@@ -103,7 +103,7 @@ git clone https://github.com/xxxx-xxxx/remote-repo.git
 ## Git工作流
 ### 本地工作流示意图
 
-![本地工作流](./attachments/git_local_work_flow.svg)
+![本地工作流](../attachments/git_local_work_flow.svg)
 
 ### Git的四个区域
 
