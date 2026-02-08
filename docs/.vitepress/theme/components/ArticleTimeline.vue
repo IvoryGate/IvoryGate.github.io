@@ -50,6 +50,10 @@ const getDelay = (groupIndex: number, itemIndex: number) => {
 
 <template>
   <div class="timeline-container">
+    <!-- 浮动光斑装饰 -->
+    <div class="floating-bulb-1"></div>
+    <div class="floating-bulb-2"></div>
+
     <header class="timeline-header">
       <h1 class="glitch-title" :data-text="PAGE_TITLE">{{ PAGE_TITLE }}</h1>
       <span class="subtitle">{{ SUB_TITLE }}</span>
@@ -110,6 +114,198 @@ const getDelay = (groupIndex: number, itemIndex: number) => {
   font-family: var(--vp-font-family-base);
   position: relative;
   overflow: hidden; /* 防止水印溢出 */
+}
+
+/* Light 模式弥散背景 */
+.timeline-container.light-mode {
+  background:
+    radial-gradient(circle at 20% 30%, rgba(90, 155, 212, 0.08) 0%, transparent 40%),
+    radial-gradient(circle at 80% 70%, rgba(107, 181, 240, 0.06) 0%, transparent 35%),
+    radial-gradient(circle at 50% 50%, rgba(90, 155, 212, 0.04) 0%, transparent 50%);
+  animation: breatheLight 8s ease-in-out infinite;
+  position: relative;
+}
+
+/* Light 模式呼吸动画 */
+@keyframes breatheLight {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.02);
+  }
+}
+
+/* Dark 模式弥散背景 */
+.timeline-container.dark-mode {
+  background:
+    radial-gradient(circle at 20% 30%, rgba(90, 155, 212, 0.12) 0%, transparent 40%),
+    radial-gradient(circle at 80% 70%, rgba(107, 181, 240, 0.1) 0%, transparent 35%),
+    radial-gradient(circle at 50% 50%, rgba(90, 155, 212, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 30% 80%, rgba(255, 107, 107, 0.05) 0%, transparent 30%);
+  animation: breatheDark 10s ease-in-out infinite;
+  position: relative;
+}
+
+/* Dark 模式呼吸动画 */
+@keyframes breatheDark {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.85;
+  }
+}
+
+/* 网格纹理叠加（仅 Dark 模式） */
+.timeline-container.dark-mode::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    linear-gradient(rgba(90, 155, 212, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(90, 155, 212, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  opacity: 0.5;
+  animation: gridMove 20s linear infinite;
+}
+
+@keyframes gridMove {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 0 40px;
+  }
+}
+
+/* 添加更多背景光斑装饰 */
+.timeline-container.light-mode::before,
+.timeline-container.dark-mode::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Light 模式额外光斑 */
+.timeline-container.light-mode::before {
+  background:
+    radial-gradient(circle at 10% 80%, rgba(167, 139, 250, 0.04) 0%, transparent 30%),
+    radial-gradient(circle at 90% 20%, rgba(52, 211, 153, 0.04) 0%, transparent 30%);
+}
+
+/* Dark 模式额外光斑 */
+.timeline-container.dark-mode::before {
+  background:
+    radial-gradient(circle at 15% 90%, rgba(236, 72, 153, 0.06) 0%, transparent 35%),
+    radial-gradient(circle at 85% 10%, rgba(34, 211, 238, 0.05) 0%, transparent 35%);
+}
+
+/* 外部光晕边框 */
+.timeline-container.light-mode {
+  box-shadow:
+    0 0 0 1px rgba(90, 155, 212, 0.05),
+    0 0 40px rgba(90, 155, 212, 0.03),
+    inset 0 0 60px rgba(90, 155, 212, 0.02);
+}
+
+.timeline-container.dark-mode {
+  box-shadow:
+    0 0 0 1px rgba(90, 155, 212, 0.1),
+    0 0 60px rgba(90, 155, 212, 0.08),
+    inset 0 0 80px rgba(90, 155, 212, 0.05);
+}
+
+/* 浮动光斑动画 */
+@keyframes floatLight {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0.6;
+  }
+  25% {
+    transform: translate(10px, -15px) scale(1.1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translate(-5px, -10px) scale(0.9);
+    opacity: 0.5;
+  }
+  75% {
+    transform: translate(5px, -20px) scale(1.05);
+    opacity: 0.7;
+  }
+}
+
+@keyframes floatDark {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0.4;
+  }
+  33% {
+    transform: translate(15px, -25px) scale(1.2);
+    opacity: 0.6;
+  }
+  66% {
+    transform: translate(-10px, -15px) scale(0.85);
+    opacity: 0.5;
+  }
+}
+
+/* 浮动光斑元素 */
+.timeline-container.light-mode .floating-bulb-1,
+.timeline-container.dark-mode .floating-bulb-1 {
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  filter: blur(40px);
+  animation: floatLight 15s ease-in-out infinite;
+}
+
+.timeline-container.light-mode .floating-bulb-1 {
+  top: 10%;
+  right: -20px;
+  background: rgba(90, 155, 212, 0.15);
+}
+
+.timeline-container.dark-mode .floating-bulb-1 {
+  top: 20%;
+  right: -30px;
+  background: rgba(90, 155, 212, 0.2);
+}
+
+.timeline-container.light-mode .floating-bulb-2,
+.timeline-container.dark-mode .floating-bulb-2 {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  filter: blur(30px);
+  animation: floatLight 12s ease-in-out infinite reverse;
+}
+
+.timeline-container.light-mode .floating-bulb-2 {
+  bottom: 20%;
+  left: -15px;
+  background: rgba(167, 139, 250, 0.12);
+}
+
+.timeline-container.dark-mode .floating-bulb-2 {
+  bottom: 30%;
+  left: -20px;
+  background: rgba(236, 72, 153, 0.15);
 }
 
 /* --- 头部设计 --- */

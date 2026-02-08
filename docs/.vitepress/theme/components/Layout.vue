@@ -1,3 +1,57 @@
+<template>
+  <!-- 弥散背景层 - 在 Layout 之外渲染，作为全局背景 -->
+  <div class="bg-diffuse">
+    <!-- 亮色模式背景 -->
+    <div class="bg-diffuse-light">
+      <div class="orb orb-1"></div>
+      <div class="orb orb-2"></div>
+      <div class="orb orb-3"></div>
+      <div class="orb orb-4"></div>
+    </div>
+    <!-- 暗色模式背景 -->
+    <div class="bg-diffuse-dark">
+      <div class="orb orb-1"></div>
+      <div class="orb orb-2"></div>
+      <div class="orb orb-3"></div>
+      <div class="orb orb-4"></div>
+    </div>
+  </div>
+
+  <Layout class="custom-layout">
+    <!-- 这里预留插槽，以后可以放全站评论区等 -->
+  </Layout>
+</template>
+
+<script setup lang="ts">
+import { onMounted, nextTick } from 'vue'
+
+// 调试：在控制台输出背景层状态
+onMounted(() => {
+  console.log('Background layer mount')
+
+  const bgDiffuse = document.querySelector('.bg-diffuse')
+  console.log('bg-diffuse element:', bgDiffuse)
+
+  if (bgDiffuse) {
+    const lightBg = bgDiffuse.querySelector('.bg-diffuse-light')
+    const darkBg = bgDiffuse.querySelector('.bg-diffuse-dark')
+
+    console.log('Light bg:', lightBg)
+    console.log('Dark bg:', darkBg)
+
+    // 尝试调试样式
+    const computedStyle = window.getComputedStyle(bgDiffuse)
+    console.log('bg-diffuse computed:', {
+      position: computedStyle.position,
+      zIndex: computedStyle.zIndex,
+      display: computedStyle.display,
+      width: computedStyle.width,
+      height: computedStyle.height
+    })
+  }
+})
+</script>
+
 <script setup lang="ts">
 import { onMounted, nextTick } from 'vue'
 import DefaultTheme from 'vitepress/theme'
@@ -61,12 +115,6 @@ onMounted(() => {
   setTimeout(enhanceSidebar, 1000)
 })
 </script>
-
-<template>
-  <Layout class="custom-layout">
-    <!-- 这里预留插槽，以后可以放全站评论区等 -->
-  </Layout>
-</template>
 
 <style scoped>
 /* 侧边栏图标样式 */

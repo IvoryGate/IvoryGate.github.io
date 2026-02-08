@@ -24,6 +24,264 @@ html {
     'serif';
 }
 
+/* ========================================================= */
+/* 魔法弥散背景效果 (Magic Diffuse Background) */
+/* ========================================================= */
+
+/* 全局背景容器 */
+body {
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* 背景容器 - 固定定位，位于所有内容之下 */
+.bg-diffuse {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* 亮色模式弥散光斑 */
+.bg-diffuse-light {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    135deg,
+    rgba(166, 207, 255, 0.08) 0%,
+    rgba(255, 255, 255, 0.5) 50%,
+    rgba(180, 230, 255, 0.1) 100%
+  );
+  filter: blur(60px);
+  opacity: 1;
+}
+
+/* 亮色模式下的光斑 */
+.bg-diffuse-light .orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  animation: float 20s ease-in-out infinite;
+}
+
+/* 光斑 1 - 柔和蓝紫色 */
+.bg-diffuse-light .orb-1 {
+  width: 600px;
+  height: 600px;
+  top: -200px;
+  left: -100px;
+  background: radial-gradient(circle, rgba(140, 180, 255, 0.6) 0%, rgba(180, 120, 255, 0.3) 50%, transparent 70%);
+  animation-duration: 25s;
+  animation-delay: 0s;
+}
+
+/* 光斑 2 - 淡青色 */
+.bg-diffuse-light .orb-2 {
+  width: 500px;
+  height: 500px;
+  top: 30%;
+  right: -150px;
+  background: radial-gradient(circle, rgba(100, 220, 200, 0.5) 0%, rgba(150, 180, 255, 0.3) 50%, transparent 70%);
+  animation-duration: 30s;
+  animation-delay: -5s;
+}
+
+/* 光斑 3 - 淡粉紫色 */
+.bg-diffuse-light .orb-3 {
+  width: 450px;
+  height: 450px;
+  bottom: -150px;
+  left: 20%;
+  background: radial-gradient(circle, rgba(220, 180, 255, 0.5) 0%, rgba(200, 140, 255, 0.3) 50%, transparent 70%);
+  animation-duration: 22s;
+  animation-delay: -10s;
+}
+
+/* 光斑 4 - 淡蓝色 */
+.bg-diffuse-light .orb-4 {
+  width: 400px;
+  height: 400px;
+  bottom: 20%;
+  right: 10%;
+  background: radial-gradient(circle, rgba(150, 200, 255, 0.4) 0%, rgba(180, 180, 255, 0.2) 50%, transparent 70%);
+  animation-duration: 28s;
+  animation-delay: -15s;
+}
+
+/* 暗色模式弥散光斑 */
+.bg-diffuse-dark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    135deg,
+    rgba(30, 40, 60, 0.6) 0%,
+    rgba(20, 30, 50, 0.8) 50%,
+    rgba(40, 50, 80, 0.6) 100%
+  );
+  filter: blur(80px);
+  opacity: 1;
+}
+
+/* 暗色模式下的光斑 */
+.bg-diffuse-dark .orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  animation: float 25s ease-in-out infinite;
+}
+
+/* 暗色模式光斑 1 - 深蓝紫 */
+.bg-diffuse-dark .orb-1 {
+  width: 700px;
+  height: 700px;
+  top: -200px;
+  right: -150px;
+  background: radial-gradient(circle, rgba(100, 130, 255, 0.4) 0%, rgba(150, 100, 255, 0.2) 50%, transparent 70%);
+  animation-duration: 30s;
+  animation-delay: 0s;
+}
+
+/* 暗色模式光斑 2 - 青紫色 */
+.bg-diffuse-dark .orb-2 {
+  width: 550px;
+  height: 550px;
+  top: 40%;
+  left: -100px;
+  background: radial-gradient(circle, rgba(130, 180, 220, 0.35) 0%, rgba(150, 100, 255, 0.2) 50%, transparent 70%);
+  animation-duration: 28s;
+  animation-delay: -7s;
+}
+
+/* 暗色模式光斑 3 - 深青蓝 */
+.bg-diffuse-dark .orb-3 {
+  width: 500px;
+  height: 500px;
+  bottom: -100px;
+  right: 10%;
+  background: radial-gradient(circle, rgba(80, 160, 200, 0.35) 0%, rgba(120, 80, 255, 0.2) 50%, transparent 70%);
+  animation-duration: 32s;
+  animation-delay: -14s;
+}
+
+/* 暗色模式光斑 4 - 深紫色 */
+.bg-diffuse-dark .orb-4 {
+  width: 450px;
+  height: 450px;
+  bottom: 30%;
+  left: 15%;
+  background: radial-gradient(circle, rgba(140, 110, 255, 0.3) 0%, rgba(100, 140, 255, 0.2) 50%, transparent 70%);
+  animation-duration: 26s;
+  animation-delay: -20s;
+}
+
+/* 光斑动画 - 缓慢漂浮效果 */
+@keyframes float {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  25% {
+    transform: translate(30px, -30px) scale(1.05);
+  }
+  50% {
+    transform: translate(-20px, 20px) scale(0.95);
+  }
+  75% {
+    transform: translate(-30px, -20px) scale(1.02);
+  }
+}
+
+/* ================================================ */
+/* 模式切换逻辑 */
+/* ================================================ */
+
+/* 亮色模式：显示亮色背景，隐藏暗色背景 */
+.bg-diffuse-light {
+  display: block !important;
+}
+
+.bg-diffuse-dark {
+  display: none !important;
+}
+
+/* 暗色模式：显示暗色背景，隐藏亮色背景 */
+:root.dark .bg-diffuse-light {
+  display: none !important;
+}
+
+:root.dark .bg-diffuse-dark {
+  display: block !important;
+}
+
+/* ================================================ */
+/* 侧边栏和导航栏优化，配合弥散背景 */
+/* ================================================ */
+
+/* 侧边栏 */
+.vp-sidebar {
+  background: rgba(255, 255, 255, 0.6) !important;
+  backdrop-filter: blur(20px);
+  border-right: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+:root.dark .vp-sidebar {
+  background: rgba(30, 40, 60, 0.7) !important;
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* 导航栏 */
+.vp-nav {
+  background: rgba(255, 255, 255, 0.75) !important;
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+:root.dark .vp-nav {
+  background: rgba(30, 40, 60, 0.8) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* ================================================ */
+/* 移动端适配 */
+/* ================================================ */
+
+@media (max-width: 768px) {
+  .bg-diffuse-light .orb-1,
+  .bg-diffuse-light .orb-2,
+  .bg-diffuse-light .orb-3,
+  .bg-diffuse-light .orb-4 {
+    width: 300px;
+    height: 300px;
+  }
+
+  .bg-diffuse-dark .orb-1,
+  .bg-diffuse-dark .orb-2,
+  .bg-diffuse-dark .orb-3,
+  .bg-diffuse-dark .orb-4 {
+    width: 350px;
+    height: 350px;
+  }
+
+  /* 移动端减少模糊，提升性能 */
+  .bg-diffuse-light,
+  .bg-diffuse-dark {
+    filter: blur(40px);
+  }
+}
+
 :root {
   /* --- 亮色模式 - 柔和灰白背景，减少眼部疲劳 --- */
   --vp-c-bg: #fafbfc;              /* 主背景：极淡的灰白，避免纯白刺眼 */
@@ -183,44 +441,90 @@ html {
   --mac-box-shadow: 0 0 10px rgba(255, 255, 255, 0.06);
 }
 
+/* 全局背景容器适配 Layout.vue */
+.bg-diffuse {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  background-color: var(--vp-c-bg);
+  /* 顶部添加一个极淡的径向渐变，营造氛围感 */
+  background-image: radial-gradient(circle at 50% -10%, var(--vp-c-bg-soft), transparent);
+}
+
+/* 弥散光斑基础样式 */
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px); /* 增加模糊度让过渡更柔和 */
+  animation: float 25s infinite alternate ease-in-out;
+  pointer-events: none;
+}
+
+/* 基于 Layout.vue 结构的具体光斑配置 */
+.bg-diffuse-light .orb-1 { width: 400px; height: 400px; top: -100px; right: -50px; background: var(--orb-color-1); }
+.bg-diffuse-light .orb-2 { width: 300px; height: 300px; bottom: 10%; left: -50px; background: var(--orb-color-2); }
+
+.bg-diffuse-dark .orb-1 { width: 600px; height: 600px; top: -150px; right: -100px; background: var(--orb-color-1); }
+.bg-diffuse-dark .orb-2 { width: 500px; height: 500px; bottom: 5%; left: -100px; background: var(--orb-color-2); }
+
+@keyframes float {
+  from { transform: translate(0, 0) scale(1); opacity: 0.6; }
+  to { transform: translate(3%, 5%) scale(1.1); opacity: 1; }
+}
+
+/* 确保内容区域透明，不遮挡背景 */
+.VPContent, .VPHome, .VPNav, .VPLocalNav {
+  background: transparent !important;
+}
+
+/* 控制 Layout.vue 中不同模式的显示 */
+:root:not(.dark) .bg-diffuse-dark { display: none !important; }
+:root.dark .bg-diffuse-light { display: none !important; }
+
+
 /* ========================================================= */
 /* PART B: 字体排版系统 - 新增 */
 /* ========================================================= */
 
 /* 字体变量定义 */
---font-heading: 'Merriweather', '仿宋', 'FangSong', Georgia, serif;
---font-body: 'Merriweather', '仿宋', 'FangSong', Georgia, serif;
---font-mono: var(--vp-font-family-mono);
---font-ui: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-
-/* 字号规范 */
---font-size-root: 16px;
---font-size-h1: 2.25rem;        /* 36px */
---font-size-h2: 1.75rem;        /* 28px */
---font-size-h3: 1.375rem;       /* 22px */
---font-size-h4: 1.125rem;       /* 18px */
---font-size-base: 1rem;         /* 16px */
---font-size-sm: 0.875rem;       /* 14px */
---font-size-xs: 0.75rem;        /* 12px */
-
-/* 行高规范 */
---line-height-tight: 1.25;
---line-height-normal: 1.6;
---line-height-relaxed: 1.75;
---line-height-loose: 2;
-
-/* 字重规范 */
---font-weight-light: 300;
---font-weight-normal: 400;
---font-weight-medium: 500;
---font-weight-semibold: 600;
---font-weight-bold: 700;
---font-weight-extrabold: 800;
-
-/* 字间距 */
---letter-spacing-tight: -0.02em;
---letter-spacing-normal: 0;
---letter-spacing-wide: 0.02em;
+:root {
+    --font-heading: 'Merriweather', '仿宋', 'FangSong', Georgia, serif;
+    --font-body: 'Merriweather', '仿宋', 'FangSong', Georgia, serif;
+    --font-mono: var(--vp-font-family-mono);
+    --font-ui: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    
+    /* 字号规范 */
+    --font-size-root: 16px;
+    --font-size-h1: 2.25rem;        /* 36px */
+    --font-size-h2: 1.75rem;        /* 28px */
+    --font-size-h3: 1.375rem;       /* 22px */
+    --font-size-h4: 1.125rem;       /* 18px */
+    --font-size-base: 1rem;         /* 16px */
+    --font-size-sm: 0.875rem;       /* 14px */
+    --font-size-xs: 0.75rem;        /* 12px */
+    
+    /* 行高规范 */
+    --line-height-tight: 1.25;
+    --line-height-normal: 1.6;
+    --line-height-relaxed: 1.75;
+    --line-height-loose: 2;
+    
+    /* 字重规范 */
+    --font-weight-light: 300;
+    --font-weight-normal: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+    --font-weight-extrabold: 800;
+    
+    /* 字间距 */
+    --letter-spacing-tight: -0.02em;
+    --letter-spacing-normal: 0;
+    --letter-spacing-wide: 0.02em;
+}
 
 /* 应用到文章内容 */
 .article-content {
@@ -1155,3 +1459,98 @@ a:hover {
 /* ========================================================= */
 /* 图片预览样式 */
 /* ========================================================= */
+
+/* ========================================================= */
+/* 调试样式 - 确保背景层正确显示 */
+/* ========================================================= */
+
+/* 确保背景容器存在 */
+.bg-diffuse {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  z-index: -9999 !important;
+  overflow: hidden !important;
+  pointer-events: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* 强制显示亮色背景 */
+.bg-diffuse-light {
+  display: block !important;
+  opacity: 1 !important;
+}
+
+/* 隐藏暗色背景 */
+.bg-diffuse-dark {
+  display: none !important;
+  opacity: 0 !important;
+}
+
+/* 暗色模式切换 */
+:root.dark .bg-diffuse-light {
+  display: none !important;
+  opacity: 0 !important;
+}
+
+:root.dark .bg-diffuse-dark {
+  display: block !important;
+  opacity: 1 !important;
+}
+
+/* 为光斑添加背景色以便调试 */
+.bg-diffuse-light .orb,
+.bg-diffuse-dark .orb {
+  background: rgba(255, 0, 0, 0.3) !important;
+}
+
+/* ================================================ */
+/* 深色模式弥散光斑 */
+/* ================================================ */
+
+/* 暗色模式光斑 1 - 深蓝紫 */
+.bg-diffuse-dark .orb-1 {
+  width: 700px;
+  height: 700px;
+  top: -200px;
+  right: -150px;
+  background: radial-gradient(circle, rgba(100, 130, 255, 0.4) 0%, rgba(150, 100, 255, 0.2) 50%, transparent 70%);
+  animation-duration: 30s;
+  animation-delay: 0s;
+}
+
+/* 暗色模式光斑 2 - 青紫色 */
+.bg-diffuse-dark .orb-2 {
+  width: 550px;
+  height: 550px;
+  top: 40%;
+  left: -100px;
+  background: radial-gradient(circle, rgba(130, 180, 220, 0.35) 0%, rgba(150, 100, 255, 0.2) 50%, transparent 70%);
+  animation-duration: 28s;
+  animation-delay: -7s;
+}
+
+/* 暗色模式光斑 3 - 深青蓝 */
+.bg-diffuse-dark .orb-3 {
+  width: 500px;
+  height: 500px;
+  bottom: -100px;
+  right: 10%;
+  background: radial-gradient(circle, rgba(80, 160, 200, 0.35) 0%, rgba(120, 80, 255, 0.2) 50%, transparent 70%);
+  animation-duration: 32s;
+  animation-delay: -14s;
+}
+
+/* 暗色模式光斑 4 - 深紫色 */
+.bg-diffuse-dark .orb-4 {
+  width: 450px;
+  height: 450px;
+  bottom: 30%;
+  left: 15%;
+  background: radial-gradient(circle, rgba(140, 110, 255, 0.3) 0%, rgba(100, 140, 255, 0.2) 50%, transparent 70%);
+  animation-duration: 26s;
+  animation-delay: -20s;
+}

@@ -161,7 +161,7 @@ onMounted(() => {
 }
 
 .greeting {
-  font-size: var(--font-size-h4);
+  font-size: var(--font-size-h1);
   font-weight: var(--font-weight-medium);
   color: var(--vp-c-text-2);
 }
