@@ -32,45 +32,25 @@ export default withMermaid(defineConfig({
     sidebar: generateSidebar([
       {
         documentRootPath: 'docs',
-        scanStartPath: 'python',
-        resolvePath: '/python/',
-        useTitleFromFileHeading: true,
-        collapsed: false,
-        sortMenusByFrontmatterOrder: true,
-        ignore: ['articles-timeline.md', 'index-index.md', 'moments.md', 'tags.md']
-      },
-      {
-        documentRootPath: 'docs',
-        scanStartPath: 'git',
-        resolvePath: '/git/',
-        useTitleFromFileHeading: true,
-        collapsed: true,
-        sortMenusByFrontmatterOrder: true,
-        ignore: ['articles-timeline.md', 'index-index.md', 'moments.md', 'tags.md']
-      },
-      {
-        documentRootPath: 'docs',
-        scanStartPath: 'Ads',
-        resolvePath: '/Ads/',
-        useTitleFromFileHeading: true,
-        collapsed: true,
-        sortMenusByFrontmatterOrder: true,
-        ignore: ['articles-timeline.md', 'index-index.md', 'moments.md', 'tags.md']
-      },
-      {
-        documentRootPath: 'docs',
         scanStartPath: 'English',
         resolvePath: '/English/',
         useTitleFromFileHeading: true,
-        collapsed: true,
+        collapsed: false,
         sortMenusByFrontmatterOrder: true,
-        ignore: ['articles-timeline.md', 'index-index.md', 'moments.md', 'tags.md']
+      },
+      {
+        documentRootPath: 'docs',
+        scanStartPath: 'Notes',
+        resolvePath: '/Notes/',
+        useTitleFromFileHeading: true,
+        collapsed: false,
+        sortMenusByFrontmatterOrder: true,
       }
     ]),
-    // footer: {
-    //   message: 'Released under the MIT License.',
-    //   copyright: 'Copyright © 2025-present IvoryGate',
-    // },
+    footer: {
+      message: 'Released under the MIT License.',
+      copyright: 'Copyright © 2025-present IvoryGate',
+    },
     socialLinks: [
       { icon: 'github', link: 'https://github.com/IvoryGate' }
     ],
