@@ -314,6 +314,8 @@ const previewImage = (src: string) => {
 
 .location-icon {
   font-size: 14px;
+  position: relative;
+  top: -2px;
 }
 
 .card-body {
