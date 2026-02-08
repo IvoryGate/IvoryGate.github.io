@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { data as moments } from '../../../moments.data'
+import IconHelper from './IconHelper.vue'
 
 // --- 配置项 ---
-const USER_AVATAR = '/xiaolan.webp' 
-const COVER_BG_IMG = '/moents_head_card.webp' 
-const PAGE_TITLE = '我的朋友圈' 
-const USER_NICKNAME = 'IvoryGate' 
+const USER_AVATAR = '/xiaolan.webp'
+const COVER_BG_IMG = '/moents_head_card.webp'
+const PAGE_TITLE = '我的朋友圈'
+const USER_NICKNAME = 'IvoryGate'
 const USER_BIO = '记录生活，碎碎念。' 
 
 // --- 逻辑处理 ---
@@ -83,7 +84,8 @@ const previewImage = (src: string) => {
             </div>
           </div>
           <div v-if="moment.location" class="location-tag">
-            <span class="icon">📍</span> {{ moment.location }}
+            <IconHelper icon="lucide:map-pin" size="16" color="#5a9bd4" class="location-icon" />
+            {{ moment.location }}
           </div>
         </div>
 
@@ -106,7 +108,8 @@ const previewImage = (src: string) => {
       </div>
 
       <div v-if="sortedMoments.length === 0" class="empty-state fade-in-up">
-        这里空空如也... 🍂
+        <IconHelper icon="lucide:cloud" size="64" color="#a0aec0" class="empty-icon" />
+        <p>这里空空如也...</p>
       </div>
     </div>
   </div>
@@ -122,37 +125,37 @@ const previewImage = (src: string) => {
   /* 头部卡片：亮透白 */
   --glass-bg: rgba(255, 255, 255, 0.75);
   --glass-border: rgba(255, 255, 255, 0.8);
-  --glass-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+  --glass-shadow: var(--shadow-lg);
   --glass-text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 
   /* 列表卡片：标准背景 */
   --card-bg: var(--vp-c-bg-soft);
-  --card-border: var(--vp-c-divider);
-  --card-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
-  --card-shadow-hover: 0 10px 25px rgba(0, 0, 0, 0.1);
-  
+  --card-border: var(--vp-c-border);
+  --card-shadow: var(--shadow-md);
+  --card-shadow-hover: var(--shadow-lg);
+
   /* 头像边框 */
   --avatar-border: rgba(255, 255, 255, 0.9);
-  
+
   max-width: 760px;
   margin: 0 auto;
-  padding: 20px 20px;
+  padding: var(--spacing-5) var(--spacing-5);
 }
 
 /* 2. 暗色模式 overrides (使用 :root.dark 确保优先级) */
 :root.dark .moments-page {
   /* 头部卡片：深黑透，亮色微光阴影 */
-  --glass-bg: rgba(20, 20, 22, 0.65); 
+  --glass-bg: rgba(20, 20, 22, 0.65);
   --glass-border: rgba(255, 255, 255, 0.12);
-  --glass-shadow: 0 8px 24px rgba(255, 255, 255, 0.05);
+  --glass-shadow: var(--shadow-lg);
   --glass-text-shadow: none;
 
   /* 列表卡片：深色背景，亮色微光阴影 */
   --card-bg: var(--vp-c-bg-soft);
   --card-border: rgba(255, 255, 255, 0.08);
-  --card-shadow: 0 4px 12px rgba(255, 255, 255, 0.05);
-  --card-shadow-hover: 0 10px 25px rgba(255, 255, 255, 0.08);
-  
+  --card-shadow: var(--shadow-sm);
+  --card-shadow-hover: var(--shadow-md);
+
   /* 头像边框变暗 */
   --avatar-border: rgba(255, 255, 255, 0.2);
 }
@@ -172,41 +175,41 @@ const previewImage = (src: string) => {
   width: 100%;
   background-size: cover;
   background-position: center;
-  border-radius: 16px;
-  filter: brightness(0.9); 
+  border-radius: var(--radius-xl);
+  filter: brightness(0.9);
 }
 
 /* 头部信息卡片 */
 .profile-info-card {
   position: relative;
   margin-top: -80px;
-  margin-left: 20px;
-  margin-right: 20px;
-  padding: 24px;
-  border-radius: 16px;
-  
+  margin-left: var(--spacing-5);
+  margin-right: var(--spacing-5);
+  padding: var(--spacing-6);
+  border-radius: var(--radius-xl);
+
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: var(--spacing-5);
   z-index: 10;
 
   background: var(--glass-bg);
   border: 1px solid var(--glass-border);
   box-shadow: var(--glass-shadow);
-  
+
   backdrop-filter: saturate(180%) blur(20px);
   -webkit-backdrop-filter: saturate(180%) blur(20px);
-  
+
   transition: all 0.3s ease;
 }
 
 .avatar-wrapper img {
   width: 80px;
   height: 80px;
-  border-radius: 12px;
+  border-radius: var(--radius-md);
   object-fit: cover;
   border: 2px solid var(--avatar-border);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  box-shadow: var(--shadow-sm);
 }
 
 .text-wrapper {
@@ -219,15 +222,15 @@ const previewImage = (src: string) => {
 
 .page-title {
   margin: 0;
-  font-size: 1.6rem;
-  font-weight: 800;
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-weight-extrabold);
   color: var(--vp-c-text-1);
-  line-height: 1.2;
+  line-height: var(--line-height-normal);
 }
 
 .user-bio {
-  margin: 8px 0 0 0;
-  font-size: 1rem;
+  margin: var(--spacing-2) 0 0 0;
+  font-size: var(--font-size-base);
   color: var(--vp-c-text-2);
 }
 
@@ -236,13 +239,13 @@ const previewImage = (src: string) => {
 .timeline {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: var(--spacing-6);
 }
 
 .moment-card {
   background-color: var(--card-bg);
-  border-radius: 16px;
-  padding: 24px;
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-6);
   border: 1px solid var(--card-border);
   box-shadow: var(--card-shadow);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -258,8 +261,8 @@ const previewImage = (src: string) => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 16px;
-  padding-bottom: 12px;
+  margin-bottom: var(--spacing-4);
+  padding-bottom: var(--spacing-3);
   border-bottom: 1px dashed var(--vp-c-divider);
 }
 
@@ -272,7 +275,7 @@ const previewImage = (src: string) => {
 .mini-avatar {
   width: 44px;
   height: 44px;
-  border-radius: 10px;
+  border-radius: var(--radius-md);
   object-fit: cover;
   border: 1px solid var(--vp-c-divider);
 }
@@ -280,33 +283,37 @@ const previewImage = (src: string) => {
 .meta-text {
   display: flex;
   flex-direction: column;
-  line-height: 1.3;
+  line-height: var(--line-height-normal);
 }
 
 .nickname {
-  font-weight: 700;
+  font-weight: var(--font-weight-bold);
   color: var(--vp-c-text-1);
-  font-size: 1.05rem;
+  font-size: var(--font-size-base);
 }
 
 /* 时间字体优化 */
 .publish-time {
-  font-size: 0.85rem;
+  font-size: var(--font-size-sm);
   color: var(--vp-c-text-3);
   font-family: var(--vp-font-family-mono); /* 使用等宽字体让数字排列整齐 */
 }
 
 .location-tag {
-  font-size: 0.8rem;
+  font-size: var(--font-size-sm);
   color: var(--vp-c-brand-1);
   background-color: var(--vp-c-bg-alt);
-  padding: 4px 10px;
-  border-radius: 20px;
+  padding: var(--spacing-2) var(--spacing-3);
+  border-radius: var(--radius-xl);
   display: flex;
   align-items: center;
-  gap: 4px;
-  font-weight: 500;
+  gap: var(--spacing-1);
+  font-weight: var(--font-weight-medium);
   white-space: nowrap;
+}
+
+.location-icon {
+  font-size: 14px;
 }
 
 .card-body {
@@ -314,21 +321,21 @@ const previewImage = (src: string) => {
 }
 
 .text-content {
-  font-size: 1.05rem;
+  font-size: var(--font-size-base);
   color: var(--vp-c-text-1);
-  line-height: 1.75;
-  margin-bottom: 16px;
+  line-height: var(--line-height-relaxed);
+  margin-bottom: var(--spacing-4);
 }
 .text-content :deep(p) {
-  margin: 0 0 10px 0;
+  margin: 0 0 var(--spacing-3) 0;
 }
 
 /* Grid Images */
 .image-grid {
   display: grid;
-  gap: 8px;
+  gap: var(--spacing-2);
   width: 100%;
-  max-width: 500px; 
+  max-width: 500px;
 }
 .image-grid.count-1 {
   grid-template-columns: 1fr;
@@ -336,7 +343,7 @@ const previewImage = (src: string) => {
 }
 .image-grid.count-1 .image-item {
   padding-top: 60%;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
 }
 .image-grid.count-2, .image-grid.count-4 {
   grid-template-columns: repeat(2, 1fr);
@@ -350,7 +357,7 @@ const previewImage = (src: string) => {
   background-position: center;
   background-size: cover;
   background-color: var(--vp-c-bg-alt);
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   cursor: zoom-in;
   transition: filter 0.2s;
 }
@@ -367,10 +374,10 @@ const previewImage = (src: string) => {
     flex-direction: column;
     text-align: center;
     margin-top: -60px;
-    gap: 12px;
+    gap: var(--spacing-3);
   }
   .user-bio {
-    font-size: 0.9rem;
+    font-size: var(--font-size-sm);
   }
 }
 
@@ -387,8 +394,17 @@ const previewImage = (src: string) => {
 
 .empty-state {
   text-align: center;
-  padding: 60px;
+  padding: var(--spacing-15);
   color: var(--vp-c-text-3);
   font-style: italic;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-4);
+}
+
+.empty-icon {
+  font-size: 48px;
+  color: var(--vp-c-text-3);
 }
 </style>

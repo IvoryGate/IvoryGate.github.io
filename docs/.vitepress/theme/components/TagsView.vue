@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { useRouter } from 'vitepress' // 1. 引入路由
-import { data as posts } from '../../../posts.data' 
+import { data as posts } from '../../../posts.data'
 import type { Post } from '../../../posts.data'
+import IconHelper from './IconHelper.vue' // 2. 引入图标助手组件
 
 interface TagInfo {
   name: string
@@ -10,8 +11,8 @@ interface TagInfo {
 }
 
 interface ExtendedPost extends Post {
-  displayTitle?: string; 
-  randomCoverUrl?: string; 
+  displayTitle?: string;
+  randomCoverUrl?: string;
 }
 
 const router = useRouter() // 2.以此获取路由实例
@@ -139,14 +140,16 @@ const filteredPosts = computed<ExtendedPost[]>(() => {
           <div class="post-summary">
             <div class="post-header">
               <h2 class="title">{{ article.displayTitle || article.title }}</h2>
-              
+
               <div class="meta-row">
                 <span class="meta-item date">
-                  📅 {{ article.date.string }}
+                  <IconHelper icon="lucide:calendar" size="16" color="#5a9bd4" />
+                  {{ article.date.string }}
                 </span>
                 <span class="meta-separator">·</span>
                 <span class="meta-item reading-time">
-                  ⏱️ {{ article.readingTime }} min
+                  <IconHelper icon="lucide:clock" size="16" color="#6bb5f0" />
+                  {{ article.readingTime }} min
                 </span>
               </div>
             </div>
@@ -189,16 +192,16 @@ const filteredPosts = computed<ExtendedPost[]>(() => {
 .tags-page-wrapper {
   /* 默认 (亮色模式) */
   --card-bg: var(--vp-c-bg-soft);
-  --card-border: var(--vp-c-divider-light);
-  --card-shadow: 0 8px 20px rgba(0, 0, 0, 0.06), 0 2px 8px rgba(0, 0, 0, 0.04);
-  --card-shadow-hover: 0 12px 30px rgba(0, 0, 0, 0.12);
-  
+  --card-border: var(--vp-c-border);
+  --card-shadow: var(--shadow-md);
+  --card-shadow-hover: var(--shadow-lg);
+
   --tag-bg: var(--vp-c-bg-alt);
   --tag-hover-shadow: 0 4px 10px rgba(var(--vp-c-brand-rgb), 0.15);
 
   max-width: 900px;
   margin: 0 auto;
-  padding: 30px 20px; 
+  padding: var(--spacing-8) var(--spacing-5);
 }
 
 /* 暗色模式 Overrides */
@@ -218,20 +221,20 @@ const filteredPosts = computed<ExtendedPost[]>(() => {
 .tags-cloud {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: var(--spacing-3);
   justify-content: center;
-  margin-bottom: 50px;
+  margin-bottom: var(--spacing-12);
 }
 .tag-pill {
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 8px 16px;
-  border-radius: 24px;
-  border: 1px solid var(--vp-c-divider); 
+  gap: var(--spacing-2);
+  padding: var(--spacing-2) var(--spacing-4);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--vp-c-divider);
   background-color: var(--tag-bg);
   color: var(--vp-c-text-2);
-  font-size: 0.9rem;
+  font-size: var(--font-size-sm);
   cursor: pointer;
   transition: all 0.3s ease;
 }
@@ -248,10 +251,10 @@ const filteredPosts = computed<ExtendedPost[]>(() => {
   box-shadow: 0 4px 12px rgba(var(--vp-c-brand-rgb), 0.4);
 }
 .count {
-  font-size: 0.75rem;
-  background-color: var(--vp-c-gray-light-3); 
-  padding: 0 6px;
-  border-radius: 8px;
+  font-size: var(--font-size-xs);
+  background-color: var(--vp-c-bg-alt);
+  padding: 0 var(--spacing-2);
+  border-radius: var(--radius-md);
   line-height: 1.4;
 }
 :root.dark .count {
@@ -264,10 +267,10 @@ const filteredPosts = computed<ExtendedPost[]>(() => {
 
 /* --- 2. 列表区域 --- */
 .section-title {
-  font-size: 1.4rem;
-  font-weight: 700;
-  margin-bottom: 24px;
-  padding-bottom: 12px;
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-weight-bold);
+  margin-bottom: var(--spacing-6);
+  padding-bottom: var(--spacing-3);
   border-bottom: 1px dashed var(--vp-c-divider);
   color: var(--vp-c-text-1);
 }
@@ -275,25 +278,22 @@ const filteredPosts = computed<ExtendedPost[]>(() => {
 .post-list {
   display: flex;
   flex-direction: column;
-  gap: 32px; 
+  gap: var(--spacing-8);
 }
 
-/* 
-   卡片容器 
-   注意：不再是 a 标签，所以需要显式设置 cursor: pointer
-*/
+/* 卡片容器 */
 .post-item {
   display: flex;
   align-items: stretch;
-  background-color: var(--card-bg); 
-  border-radius: 16px; 
-  border: 1px solid var(--card-border); 
+  background-color: var(--card-bg);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--card-border);
   /* 显式设置手型光标 */
   cursor: pointer;
   transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s;
-  overflow: hidden; 
-  box-shadow: var(--card-shadow); 
-  height: 240px; 
+  overflow: hidden;
+  box-shadow: var(--card-shadow);
+  height: 240px;
   position: relative;
   z-index: 1;
 }
@@ -340,11 +340,11 @@ const filteredPosts = computed<ExtendedPost[]>(() => {
 }
 
 .title {
-  font-size: 1.5rem; 
-  font-weight: 700;
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-weight-bold);
   color: var(--vp-c-text-1);
-  line-height: 1.3;
-  margin: 0 0 8px 0;
+  line-height: var(--line-height-normal);
+  margin: 0 0 var(--spacing-2) 0;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -354,21 +354,34 @@ const filteredPosts = computed<ExtendedPost[]>(() => {
 .meta-row {
   display: flex;
   align-items: center;
-  font-size: 0.85rem;
+  font-size: var(--font-size-sm);
   color: var(--vp-c-text-3);
   font-family: var(--vp-font-family-mono);
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
 }
+
+.meta-icon {
+  margin-right: 4px;
+}
+
+.date-icon {
+  color: var(--vp-c-brand-2);
+}
+
+.time-icon {
+  color: var(--vp-c-brand-3);
+}
+
 .meta-separator {
-  margin: 0 8px;
+  margin: 0 var(--spacing-2);
   opacity: 0.5;
 }
 
 .excerpt {
-  margin-bottom: 20px;
+  margin-bottom: var(--spacing-5);
   color: var(--vp-c-text-2);
-  line-height: 1.6;
-  font-size: 1rem;
+  line-height: var(--line-height-normal);
+  font-size: var(--font-size-base);
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -389,12 +402,12 @@ const filteredPosts = computed<ExtendedPost[]>(() => {
 }
 
 .mini-tag {
-  font-size: 0.8rem;
-  color: var(--vp-c-brand);
-  background-color: var(--vp-c-bg-alt); 
-  padding: 4px 12px;
-  border-radius: 6px;
-  font-weight: 600;
+  font-size: var(--font-size-sm);
+  color: var(--vp-c-brand-1);
+  background-color: var(--vp-c-bg-alt);
+  padding: var(--spacing-2) var(--spacing-3);
+  border-radius: var(--radius-md);
+  font-weight: var(--font-weight-semibold);
   transition: all 0.2s;
   cursor: pointer;
   border: 1px solid transparent;
@@ -415,33 +428,33 @@ const filteredPosts = computed<ExtendedPost[]>(() => {
 
 .empty-state {
   text-align: center;
-  padding: 80px;
+  padding: var(--spacing-20);
   color: var(--vp-c-text-3);
 }
 
 /* --- Mobile --- */
 @media (max-width: 768px) {
   .post-item {
-    flex-direction: column; 
-    height: auto; 
+    flex-direction: column;
+    height: auto;
   }
   .post-item.reverse {
-    flex-direction: column; 
+    flex-direction: column;
   }
   .post-cover {
     flex: 0 0 auto;
     width: 100%;
-    height: 200px; 
+    height: 200px;
   }
   .post-summary {
-    padding: 20px;
+    padding: var(--spacing-5);
   }
   .title {
-    font-size: 1.3rem;
+    font-size: var(--font-size-h3);
   }
   .excerpt {
-    font-size: 0.95rem;
-    -webkit-line-clamp: 3; 
+    font-size: var(--font-size-sm);
+    -webkit-line-clamp: 3;
   }
 }
 </style>
