@@ -134,17 +134,16 @@ onMounted(() => {
 .hero-content {
   width: 100%;
   max-width: var(--vp-layout-max-width, 1280px);
-  padding: 0 40px;
+  padding: 0 var(--spacing-8);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  
-  /* 【关键修复】：移除所有 margin-top 补偿，完全依赖父容器 Flexbox 居中 */
-  margin-top: 0; 
+
+  margin-top: 0;
 }
 
 /* ========================================================= */
-/* 2. 左侧文本区样式 (无变化) */
+/* 2. 左侧文本区样式 */
 /* ========================================================= */
 
 .text-section {
@@ -156,20 +155,20 @@ onMounted(() => {
   margin: 0;
   padding: 0;
   color: var(--vp-c-text-1);
-  font-size: 20px;
-  font-weight: 500;
-  line-height: 1.5;
+  font-size: var(--font-size-h3);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-normal);
 }
 
 .greeting {
-  font-size: 1.4em;
-  font-weight: 500;
+  font-size: var(--font-size-h4);
+  font-weight: var(--font-weight-medium);
   color: var(--vp-c-text-2);
 }
 
 .self-introduction {
-  font-size: 1.8em;
-  font-weight: 800;
+  font-size: var(--font-size-h1);
+  font-weight: var(--font-weight-extrabold);
   color: var(--vp-c-brand-1);
 }
 
@@ -186,18 +185,18 @@ onMounted(() => {
 
 /* 内部文本容器：确保内容可以换行，且光标跟随 */
 .typewriter {
-  font-size: 1.2em;
-  font-weight: 600;
-  display: inline-block; 
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  display: inline-block;
   color: var(--vp-c-text-1);
-  line-height: 1.2;
+  line-height: var(--line-height-normal);
 }
 
 .tagline {
-  font-size: 16px;
+  font-size: var(--font-size-sm);
   color: var(--vp-c-text-3);
   margin-top: 0;
-  margin-bottom: 2em;
+  margin-bottom: var(--spacing-6);
   max-width: 500px;
 }
 
@@ -225,15 +224,15 @@ span.mark {
 
 .action-buttons {
   display: flex;
-  gap: 1.5rem;
+  gap: var(--spacing-6);
   margin-top: 0;
 }
 
 .action-btn {
   display: inline-block;
-  padding: 10px 24px;
-  border-radius: 40px;
-  font-weight: 600;
+  padding: var(--spacing-3) var(--spacing-6);
+  border-radius: var(--radius-xl);
+  font-weight: var(--font-weight-semibold);
   text-decoration: none;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
@@ -302,8 +301,8 @@ span.mark {
   position: relative;
   z-index: 2;
   animation: floatImage 4s ease-in-out infinite;
-  border: 5px solid var(--vp-c-bg-soft); 
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2); 
+  border: 5px solid var(--vp-c-bg-soft);
+  box-shadow: var(--shadow-lg);
   transition: all 0.3s;
 }
 
@@ -336,51 +335,51 @@ span.mark {
 @media (max-width: 960px) {
   /* 移动端：恢复 relative 定位，让组件在内容流中自然显示 */
   .hero-container {
-    position: relative; 
+    position: relative;
     top: auto;
     height: auto;
     min-height: calc(100vh - var(--vp-nav-height, 64px));
-    padding: 64px 0;
+    padding: var(--spacing-16) 0;
   }
-  
+
   .hero-content {
     flex-direction: column;
     text-align: center;
-    padding: 0 24px;
-    margin-top: 0; 
+    padding: 0 var(--spacing-6);
+    margin-top: 0;
   }
 
   .text-section {
     max-width: 100%;
     order: 2;
   }
-  
+
   .typewriter-wrapper {
-      min-height: 4.5em; 
+      min-height: 4.5em;
       display: flex;
       align-items: center;
-      margin-top: 0.8em; 
-      margin-bottom: 0.5em;
+      margin-top: var(--spacing-2);
+      margin-bottom: var(--spacing-2);
   }
-  
+
   .text-section h3 {
-      font-size: 18px;
+      font-size: var(--font-size-h4);
   }
   .self-introduction {
-    font-size: 1.6em;
+    font-size: var(--font-size-h2);
   }
   .typewriter {
-    font-size: 1.1em;
+    font-size: var(--font-size-base);
   }
 
   .avatar-section {
     order: 1;
     width: 250px;
     height: 250px;
-    margin-bottom: 2.5rem;
+    margin-bottom: var(--spacing-10);
     margin-left: 0 !important;
   }
-  
+
   .hero-avatar {
       margin-left: 0;
   }
@@ -392,7 +391,7 @@ span.mark {
 
   .action-buttons {
     justify-content: center;
-    gap: 1rem;
+    gap: var(--spacing-4);
     width: 100%;
   }
 }

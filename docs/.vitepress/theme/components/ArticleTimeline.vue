@@ -127,14 +127,14 @@ const goToArticle = (url: string) => {
    CSS 变量定义
    ================================================================= */
 .timeline-page {
-  --accent-color: var(--vp-c-brand);
-  --accent-light: var(--vp-c-brand-light);
-  --bg-gradient-start: #667eea;
-  --bg-gradient-end: #764ba2;
+  --accent-color: var(--vp-c-brand-2);
+  --accent-light: var(--vp-c-brand-3);
+  --bg-gradient-start: var(--vp-c-brand-2);
+  --bg-gradient-end: var(--vp-c-brand-1);
 
   max-width: 1000px;
   margin: 0 auto;
-  padding: 60px 40px;
+  padding: var(--spacing-16) var(--spacing-8);
   position: relative;
 }
 
@@ -147,26 +147,26 @@ const goToArticle = (url: string) => {
    ================================================================= */
 .header-section {
   text-align: center;
-  margin-bottom: 80px;
+  margin-bottom: var(--spacing-12);
   animation: fadeInUp 0.6s ease-out;
 }
 
 .page-title {
-  font-size: 3.5rem;
-  font-weight: 900;
-  margin: 0 0 16px 0;
+  font-size: var(--font-size-h1);
+  font-weight: var(--font-weight-extrabold);
+  margin: 0 0 var(--spacing-4) 0;
   background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  letter-spacing: -0.02em;
+  letter-spacing: var(--letter-spacing-tight);
 }
 
 .page-description {
-  font-size: 1.25rem;
+  font-size: var(--font-size-base);
   color: var(--vp-c-text-2);
   margin: 0;
-  font-weight: 400;
+  font-weight: var(--font-weight-normal);
   opacity: 0.9;
 }
 
@@ -283,14 +283,14 @@ const goToArticle = (url: string) => {
 
 /* 文章列表 */
 .posts-list {
-  margin-left: 40px;
-  padding-top: 20px;
+  margin-left: var(--spacing-10);
+  padding-top: var(--spacing-5);
 }
 
 .article-item {
   position: relative;
-  margin-bottom: 40px;
-  padding-left: 40px;
+  margin-bottom: var(--spacing-10);
+  padding-left: var(--spacing-10);
   animation: slideInRight 0.5s ease-out;
 }
 
@@ -305,7 +305,7 @@ const goToArticle = (url: string) => {
   border-radius: 50%;
   background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
   box-shadow: 0 0 0 4px var(--vp-c-bg),
-              0 0 15px rgba(102, 126, 234, 0.6);
+              0 0 15px rgba(var(--vp-c-brand-rgb), 0.6);
   z-index: 2;
 }
 
@@ -316,14 +316,14 @@ const goToArticle = (url: string) => {
 }
 
 .article-title {
-  font-size: 1.4rem;
-  font-weight: 700;
+  font-size: var(--font-size-h3);
+  font-weight: var(--font-weight-bold);
   color: var(--vp-c-text-1);
-  line-height: 1.6;
+  line-height: var(--line-height-normal);
   cursor: pointer;
   transition: all 0.3s ease;
-  padding: 16px 20px;
-  border-radius: 12px;
+  padding: var(--spacing-4) var(--spacing-5);
+  border-radius: var(--radius-lg);
   background: linear-gradient(135deg, var(--vp-c-bg-alt) 0%, var(--vp-c-bg-soft) 100%);
   border: 2px solid transparent;
   position: relative;
@@ -355,10 +355,10 @@ const goToArticle = (url: string) => {
 }
 
 .article-date {
-  font-size: 0.9rem;
+  font-size: var(--font-size-sm);
   color: var(--vp-c-text-3);
-  margin-top: 8px;
-  margin-left: 4px;
+  margin-top: var(--spacing-2);
+  margin-left: var(--spacing-1);
   font-family: var(--vp-font-family-mono);
   display: inline-flex;
   align-items: center;
@@ -374,9 +374,9 @@ const goToArticle = (url: string) => {
 /* 空状态 */
 .empty-state {
   text-align: center;
-  padding: 100px 40px;
+  padding: var(--spacing-20) var(--spacing-8);
   color: var(--vp-c-text-3);
-  font-size: 1.5rem;
+  font-size: var(--font-size-base);
 }
 
 /* =================================================================

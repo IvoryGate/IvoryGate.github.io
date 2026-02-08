@@ -10,7 +10,16 @@ export default withMermaid(defineConfig({
     ["link", { rel: "icon", href: "/folder.svg" }],
     ["link", { rel: "preconnect", href: "https://fonts.googleapis.com" }],
     ["link", { rel: "preconnect", href: "https://fonts.gstatic.com", crossorigin: "" }],
-    ["link", { rel: "preload", href: "/folder.svg", as: "image" }]
+    ["link", { rel: "preload", href: "/folder.svg", as: "image" }],
+    // Iconify CDN - 使用最新版本
+    ["link", {
+      rel: "stylesheet",
+      href: "https://code.iconify.design/3/3.1.0/iconify.min.css"
+    }],
+    ["script", {
+      src: "https://code.iconify.design/3/3.1.0/iconify.min.js",
+      defer: "true"
+    }]
   ],
   title: "风驻云不归的博客",
   description: "Personal Knowledge Base",
