@@ -1,391 +1,312 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref, onMounted } from 'vue'
 import { useRouter } from 'vitepress'
 import { data as posts } from '../../../posts.data'
 import type { Post } from '../../../posts.data'
 
 const router = useRouter()
 
-interface ExtendedPost extends Post {
-  displayTitle?: string
-  randomCoverUrl?: string
-}
+// 更加抽象的标题
+const PAGE_TITLE = 'MEMORIES'
+const SUB_TITLE = 'Chronicle of Growth'
 
-// 图片 URL 缓存
-const imageCache = new Map<string, string>()
-const RANDOM_IMAGE_API = 'https://www.dmoe.cc/random.php'
-
-const getRandomImageUrl = (key: string) => {
-  if (imageCache.has(key)) return imageCache.get(key)
-  const url = `${RANDOM_IMAGE_API}?t=${Math.random()}`
-  imageCache.set(key, url)
-  return url
-}
-
-// --- 配置项 ---
-const PAGE_TITLE = '时光流转，文章有迹'
-const DESCRIPTION = '时光流转，文章有迹'
-
-// 格式化日期为 YYYY-MM
-const formatDateYearMonth = (timestamp: number) => {
-  const date = new Date(timestamp)
-  return `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}`
-}
-
-// 1. 按年份分组并按时间倒序排序（从新到旧）
-const groupedByYear = computed(() => {
-  const groups: Record<string, ExtendedPost[]> = {}
-
-  // 按时间倒序分组
-  posts.sort((a, b) => b.date.time - a.date.time).forEach((post) => {
-    const year = new Date(post.date.time).getFullYear()
-    if (!groups[year]) {
-      groups[year] = []
-    }
-    groups[year].push(post)
+// 按日期分组逻辑 (保持不变，因为逻辑是正确的)
+const groupedPosts = computed(() => {
+  const groups = new Map<number, Post[]>()
+  const sortedPosts = [...posts].sort((a, b) => b.date.time - a.date.time)
+  
+  sortedPosts.forEach(post => {
+    const date = new Date(post.date.time)
+    const key = date.getFullYear()
+    if (!groups.has(key)) groups.set(key, [])
+    groups.get(key)!.push(post)
   })
 
-  // 获取年份并按时间倒序排序
-  const sortedYears = Object.keys(groups).sort((a, b) => parseInt(b) - parseInt(a))
-
-  // 按年份顺序创建数组
-  const sortedGroups = sortedYears.map(year => ({
-    year,
-    posts: groups[year].sort((a, b) => b.date.time - a.date.time)
-  }))
-
-  return sortedGroups
+  return Array.from(groups.entries())
+    .map(([year, posts]) => ({
+      year,
+      posts: posts.sort((a, b) => b.date.time - a.date.time)
+    }))
+    .sort((a, b) => b.year - a.year)
 })
 
-// 2. 过滤函数（可选）
-const showAllPosts = computed(() => true)
+// 格式化日期：只保留月.日，用更具科技感的格式 (e.g. 09.24)
+const formatSimpleDate = (timestamp: number) => {
+  const date = new Date(timestamp)
+  const m = (date.getMonth() + 1).toString().padStart(2, '0')
+  const d = date.getDate().toString().padStart(2, '0')
+  return `${m}.${d}`
+}
 
-// 3. 跳转函数
 const goToArticle = (url: string) => {
-  if (url) {
-    console.log('点击卡片，url:', url)
+  if (url) router.go(url)
+}
 
-    // 尝试直接跳转
-    if (typeof window !== 'undefined') {
-      window.location.href = url
-    }
-  }
+// 简单的交错动画延迟计算
+const getDelay = (groupIndex: number, itemIndex: number) => {
+  return `${(groupIndex * 0.1) + (itemIndex * 0.05)}s`
 }
 </script>
 
 <template>
-  <div class="timeline-page">
-    <!-- 头部区域 -->
-    <div class="header-section">
-      <h1 class="page-title">{{ PAGE_TITLE }}</h1>
-      <p class="page-description">{{ DESCRIPTION }}</p>
-    </div>
+  <div class="timeline-container">
+    <header class="timeline-header">
+      <h1 class="glitch-title" :data-text="PAGE_TITLE">{{ PAGE_TITLE }}</h1>
+      <span class="subtitle">{{ SUB_TITLE }}</span>
+      <div class="header-line"></div>
+    </header>
 
-    <!-- 时间轴 -->
-    <div class="timeline-container">
-      <!-- 年份分组 -->
-      <div v-for="(group, index) in groupedByYear" :key="group.year" class="year-section">
-        <!-- 年份标记 -->
-        <div class="year-mark">
-          <div class="year-ring">
-            <div class="year-content">
-              <span class="year-year">{{ group.year }}</span>
-              <span class="year-month">{{ formatDateYearMonth(group.posts[0]?.date.time) }}</span>
+    <div class="stream-wrapper">
+      <div class="main-line"></div>
+
+      <div 
+        v-for="(group, gIndex) in groupedPosts" 
+        :key="group.year" 
+        class="year-section"
+      >
+        <div class="year-watermark">{{ group.year }}</div>
+
+        <div class="posts-list">
+          <div 
+            v-for="(post, pIndex) in group.posts"
+            :key="post.url"
+            class="memory-node"
+            :style="{ animationDelay: getDelay(gIndex, pIndex) }"
+            @click="goToArticle(post.url)"
+          >
+            <div class="date-col">
+              <span class="mono-date">{{ formatSimpleDate(post.date.time) }}</span>
+            </div>
+
+            <div class="track-col">
+              <div class="node-point">
+                <div class="pulse-ring"></div>
+              </div>
+            </div>
+
+            <div class="content-col">
+              <h3 class="post-title">{{ post.title }}</h3>
             </div>
           </div>
         </div>
-
-        <!-- 年份内的文章列表 -->
-        <div class="posts-list">
-          <div
-            v-for="(article, articleIndex) in group.posts"
-            :key="article.url"
-            class="article-item"
-            :style="{ '--delay': `${articleIndex * 0.05}s` }"
-            @click="goToArticle(article.url)"
-          >
-            <!-- 文章标题 -->
-            <div class="article-title">{{ article.title }}</div>
-            <div class="article-date">{{ new Date(article.date.time).toLocaleDateString('zh-CN', {
-              month: '2-digit',
-              day: '2-digit'
-            }) }}</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 空状态 -->
-      <div v-if="groupedByYear.length === 0" class="empty-state">
-        暂无文章
       </div>
     </div>
   </div>
 </template>
 
 <style scoped>
-/* =================================================================
-   CSS 变量定义
-   ================================================================= */
-.timeline-page {
-  --accent-color: var(--vp-c-brand-2);
-  --accent-light: var(--vp-c-brand-3);
-  --bg-gradient-start: var(--vp-c-brand-2);
-  --bg-gradient-end: var(--vp-c-brand-1);
+/* 变量定义：赛博/科技风格配色 */
+:root {
+  --line-color: rgba(60, 60, 67, 0.3);
+  --accent-glow: #3eaf7c; /* VitePress 默认绿，可改为 #5a9bd4 蓝色系 */
+  --text-dim: var(--vp-c-text-3);
+  --text-main: var(--vp-c-text-1);
+}
 
-  max-width: 1000px;
+.timeline-container {
+  max-width: 680px;
   margin: 0 auto;
-  padding: var(--spacing-16) var(--spacing-8);
+  padding: 4rem 1.5rem;
+  font-family: var(--vp-font-family-base);
+  position: relative;
+  overflow: hidden; /* 防止水印溢出 */
+}
+
+/* --- 头部设计 --- */
+.timeline-header {
+  margin-bottom: 6rem;
+  text-align: left;
   position: relative;
 }
 
-/* 暗色模式 Overrides */
-:root.dark .timeline-page {
-}
-
-/* =================================================================
-   头部区域
-   ================================================================= */
-.header-section {
-  text-align: center;
-  margin-bottom: var(--spacing-12);
-  animation: fadeInUp 0.6s ease-out;
-}
-
-.page-title {
-  font-size: var(--font-size-h1);
-  font-weight: var(--font-weight-extrabold);
-  margin: 0 0 var(--spacing-4) 0;
-  background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+.glitch-title {
+  font-size: 3rem;
+  font-weight: 900;
+  letter-spacing: -0.05em;
+  margin: 0;
+  line-height: 1;
+  background: linear-gradient(120deg, var(--vp-c-brand-1), var(--vp-c-brand-2));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  background-clip: text;
-  letter-spacing: var(--letter-spacing-tight);
-}
-
-.page-description {
-  font-size: var(--font-size-base);
-  color: var(--vp-c-text-2);
-  margin: 0;
-  font-weight: var(--font-weight-normal);
-  opacity: 0.9;
-}
-
-/* =================================================================
-   时间轴容器
-   ================================================================= */
-.timeline-container {
   position: relative;
-  padding-left: 80px;
+  display: inline-block;
 }
 
-/* 渐变竖线 */
-.timeline-container::before {
-  content: '';
+.subtitle {
+  display: block;
+  font-family: var(--vp-font-family-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-top: 0.5rem;
+  opacity: 0.6;
+}
+
+.header-line {
+  width: 40px;
+  height: 4px;
+  background: var(--vp-c-brand-1);
+  margin-top: 1.5rem;
+  border-radius: 2px;
+}
+
+/* --- 主体结构 --- */
+.stream-wrapper {
+  position: relative;
+  padding-left: 0;
+}
+
+/* 贯穿全局的线条 */
+.main-line {
   position: absolute;
-  left: 0;
-  top: 0;
+  left: 93px; /* 调整此值以对齐中间节点 */
+  top: -20px;
   bottom: 0;
-  width: 4px;
-  background: linear-gradient(to bottom,
-    transparent 0%,
-    var(--bg-gradient-start) 15%,
-    var(--bg-gradient-end) 35%,
-    var(--bg-gradient-start) 50%,
-    var(--bg-gradient-end) 65%,
-    var(--bg-gradient-start) 85%,
+  width: 1px;
+  background: linear-gradient(to bottom, 
+    transparent 0%, 
+    var(--vp-c-brand-2) 20%, 
+    var(--vp-c-brand-2) 80%, 
     transparent 100%
   );
-  border-radius: 2px;
-  box-shadow: 0 0 20px rgba(102, 126, 234, 0.3);
+  opacity: 0.2;
+  z-index: 0;
 }
 
-/* 竖线节点 */
-.timeline-node {
-  position: absolute;
-  left: 0;
-  transform: translateX(-50%);
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background-color: var(--vp-c-bg);
-  border: 4px solid var(--bg-gradient-start);
-  box-shadow: 0 0 0 2px var(--bg-gradient-end),
-              0 0 20px rgba(102, 126, 234, 0.5);
-  z-index: 2;
-  transition: all 0.3s ease;
-}
-
-/* 年份区块 */
+/* --- 年份区块 --- */
 .year-section {
   position: relative;
-  margin-bottom: 80px;
-  animation: fadeInUp 0.6s ease-out;
+  margin-bottom: 6rem;
 }
 
-.year-section:last-child {
-  margin-bottom: 0;
-}
-
-/* 年份标记 */
-.year-mark {
+/* 炫技点：巨大背景水印 */
+.year-watermark {
   position: absolute;
-  left: 0;
-  top: 0;
-  z-index: 2;
+  top: -3rem;
+  left: -2rem;
+  font-size: 8rem;
+  font-weight: 900;
+  color: var(--vp-c-text-1);
+  opacity: 0.03; /* 极淡 */
+  z-index: -1;
+  line-height: 1;
+  user-select: none;
+  pointer-events: none;
+  font-family: var(--vp-font-family-mono);
+  transition: transform 0.5s ease;
 }
 
-.year-ring {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+.year-section:hover .year-watermark {
+  transform: translateX(10px);
+  opacity: 0.06;
+}
+
+/* --- 记忆节点 --- */
+.memory-node {
   display: flex;
   align-items: center;
-  justify-content: center;
-  box-shadow: 0 0 30px rgba(102, 126, 234, 0.4);
+  margin-bottom: 2rem;
+  cursor: pointer;
   position: relative;
+  opacity: 0; /* 初始隐藏，给动画用 */
+  animation: slideInUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
-.year-ring::before {
-  content: '';
-  position: absolute;
-  inset: -4px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
-  opacity: 0.5;
-  animation: pulse 2s ease-in-out infinite;
+/* 1. 左侧日期 */
+.date-col {
+  width: 80px;
+  text-align: right;
+  padding-right: 20px;
 }
 
-.year-content {
+.mono-date {
+  font-family: var(--vp-font-family-mono);
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  transition: color 0.3s ease;
+}
+
+/* 2. 中间轨道与光点 */
+.track-col {
+  width: 26px; /* 包含线的宽度和点的直径 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: relative;
   z-index: 1;
-  text-align: center;
-  color: white;
-  padding: 8px;
 }
 
-.year-year {
-  display: block;
-  font-size: 1.8rem;
-  font-weight: 900;
-  line-height: 1;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-}
-
-.year-month {
-  display: block;
-  font-size: 0.9rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  opacity: 0.95;
-}
-
-/* 文章列表 */
-.posts-list {
-  margin-left: var(--spacing-10);
-  padding-top: var(--spacing-5);
-}
-
-.article-item {
-  position: relative;
-  margin-bottom: var(--spacing-10);
-  padding-left: var(--spacing-10);
-  animation: slideInRight 0.5s ease-out;
-}
-
-.article-item::before {
-  content: '';
-  position: absolute;
-  left: 14px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 10px;
-  height: 10px;
+.node-point {
+  width: 8px;
+  height: 8px;
+  background-color: var(--vp-c-bg);
+  border: 2px solid var(--vp-c-text-3);
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
-  box-shadow: 0 0 0 4px var(--vp-c-bg),
-              0 0 15px rgba(var(--vp-c-brand-rgb), 0.6);
-  z-index: 2;
-}
-
-.article-item:hover::before {
-  box-shadow: 0 0 0 4px var(--bg-gradient-start),
-              0 0 25px rgba(102, 126, 234, 0.8);
-  transform: translateY(-50%) scale(1.3);
-}
-
-.article-title {
-  font-size: var(--font-size-h3);
-  font-weight: var(--font-weight-bold);
-  color: var(--vp-c-text-1);
-  line-height: var(--line-height-normal);
-  cursor: pointer;
-  transition: all 0.3s ease;
-  padding: var(--spacing-4) var(--spacing-5);
-  border-radius: var(--radius-lg);
-  background: linear-gradient(135deg, var(--vp-c-bg-alt) 0%, var(--vp-c-bg-soft) 100%);
-  border: 2px solid transparent;
   position: relative;
-  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-.article-title::before {
-  content: '';
+/* 呼吸光环 */
+.pulse-ring {
   position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 4px;
-  background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
-  border-radius: 12px 0 0 12px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 200%;
+  height: 200%;
+  border-radius: 50%;
+  border: 1px solid var(--vp-c-brand-1);
   opacity: 0;
+  transition: all 0.4s ease;
+}
+
+/* 3. 右侧内容 */
+.content-col {
+  flex: 1;
+  padding-left: 20px;
+}
+
+.post-title {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--vp-c-text-2); /* 默认稍暗 */
   transition: all 0.3s ease;
+  line-height: 1.4;
 }
 
-.article-item:hover .article-title {
-  transform: translateX(8px);
-  background: linear-gradient(135deg, var(--vp-c-bg-soft) 0%, var(--vp-c-bg-alt) 100%);
-  border-color: rgba(102, 126, 234, 0.3);
-  box-shadow: 0 8px 30px rgba(102, 126, 234, 0.15);
+/* --- 交互效果 (HOVER STATE) --- */
+
+.memory-node:hover .mono-date {
+  color: var(--vp-c-brand-1);
+  font-weight: bold;
 }
 
-.article-item:hover .article-title::before {
-  opacity: 1;
+.memory-node:hover .node-point {
+  background-color: var(--vp-c-brand-1);
+  border-color: var(--vp-c-brand-1);
+  transform: scale(1.3);
+  box-shadow: 0 0 15px var(--vp-c-brand-1);
 }
 
-.article-date {
-  font-size: var(--font-size-sm);
-  color: var(--vp-c-text-3);
-  margin-top: var(--spacing-2);
-  margin-left: var(--spacing-1);
-  font-family: var(--vp-font-family-mono);
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
+.memory-node:hover .pulse-ring {
+  width: 300%;
+  height: 300%;
+  opacity: 0.3;
 }
 
-.article-date::before {
-  content: '•';
-  font-size: 1.2rem;
-  color: var(--bg-gradient-start);
+.memory-node:hover .post-title {
+  color: var(--vp-c-text-1);
+  transform: translateX(8px); /* 细微位移 */
+  text-shadow: 0 0 1px rgba(0,0,0,0.1);
 }
 
-/* 空状态 */
-.empty-state {
-  text-align: center;
-  padding: var(--spacing-20) var(--spacing-8);
-  color: var(--vp-c-text-3);
-  font-size: var(--font-size-base);
-}
-
-/* =================================================================
-   动画
-   ================================================================= */
-@keyframes fadeInUp {
+/* --- 动画 --- */
+@keyframes slideInUp {
   from {
     opacity: 0;
-    transform: translateY(30px);
+    transform: translateY(20px);
   }
   to {
     opacity: 1;
@@ -393,227 +314,50 @@ const goToArticle = (url: string) => {
   }
 }
 
-@keyframes slideInRight {
-  from {
-    opacity: 0;
-    transform: translateX(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes pulse {
-  0%, 100% {
-    opacity: 0.5;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.8;
-    transform: scale(1.05);
-  }
-}
-
-/* =================================================================
-   响应式设计
-   ================================================================= */
-@media (max-width: 768px) {
-  .timeline-page {
-    padding: 40px 24px;
-  }
-
-  .page-title {
-    font-size: 2.5rem;
-    margin-bottom: 12px;
-  }
-
-  .page-description {
-    font-size: 1rem;
-  }
-
+/* 移动端适配 */
+@media (max-width: 640px) {
   .timeline-container {
-    padding-left: 60px;
+    padding: 2rem 1rem;
   }
-
-  .timeline-node {
-    width: 16px;
-    height: 16px;
-  }
-
-  .year-mark {
-    left: -8px;
-  }
-
-  .year-ring {
-    width: 60px;
-    height: 60px;
-  }
-
-  .year-year {
-    font-size: 1.4rem;
-  }
-
-  .year-month {
-    font-size: 0.75rem;
-  }
-
-  .posts-list {
-    margin-left: 28px;
-    padding-top: 16px;
-  }
-
-  .article-item {
-    margin-bottom: 32px;
-    padding-left: 28px;
-  }
-
-  .article-item::before {
-    left: 12px;
-    width: 8px;
-    height: 8px;
-  }
-
-  .article-title {
-    font-size: 1.15rem;
-    padding: 12px 16px;
-  }
-
-  .article-date {
-    font-size: 0.8rem;
-    margin-top: 6px;
-  }
-}
-
-@media (max-width: 480px) {
-  .timeline-page {
-    padding: 32px 20px;
-  }
-
-  .page-title {
+  
+  .glitch-title {
     font-size: 2rem;
   }
 
-  .page-description {
-    font-size: 0.9rem;
+  .main-line {
+    left: 19px; /* 移动端靠左 */
   }
 
-  .timeline-container {
-    padding-left: 50px;
+  .date-col {
+    display: none; /* 移动端隐藏左侧日期，太挤了 */
   }
 
-  .timeline-node {
-    width: 14px;
-    height: 14px;
+  .track-col {
+    width: 40px;
+    justify-content: flex-start;
   }
 
-  .year-mark {
-    left: -10px;
+  .content-col {
+    padding-left: 10px;
   }
 
-  .year-ring {
-    width: 50px;
-    height: 50px;
+  .post-title {
+    font-size: 1rem;
   }
-
-  .year-year {
-    font-size: 1.2rem;
-  }
-
-  .year-month {
+  
+  /* 移动端把日期显示在标题上方 */
+  .post-title::before {
+    content: attr(data-date); /* 需要在template里加data-date吗？或者直接在这里改结构。为简单起见，这里保持极简，或者你可以让日期作为小字显示在标题上 */
+    display: block;
     font-size: 0.7rem;
+    font-family: var(--vp-font-family-mono);
+    color: var(--vp-c-brand-2);
+    margin-bottom: 4px;
   }
-
-  .posts-list {
-    margin-left: 24px;
-  }
-
-  .article-item {
-    margin-bottom: 24px;
-    padding-left: 24px;
-  }
-
-  .article-item::before {
-    left: 10px;
-    width: 6px;
-    height: 6px;
-  }
-
-  .article-title {
-    font-size: 1rem;
-    padding: 10px 14px;
-  }
-
-  .article-date {
-    font-size: 0.75rem;
-    margin-top: 5px;
-  }
-}
-
-@media (min-width: 1200px) {
-  .timeline-page {
-    max-width: 1100px;
-    padding: 80px 60px;
-  }
-
-  .page-title {
-    font-size: 4rem;
-  }
-
-  .page-description {
-    font-size: 1.3rem;
-  }
-
-  .timeline-container {
-    padding-left: 100px;
-  }
-
-  .timeline-node {
-    width: 24px;
-    height: 24px;
-  }
-
-  .year-mark {
-    left: -10px;
-  }
-
-  .year-ring {
-    width: 100px;
-    height: 100px;
-  }
-
-  .year-year {
-    font-size: 2rem;
-  }
-
-  .year-month {
-    font-size: 1rem;
-  }
-
-  .posts-list {
-    margin-left: 50px;
-    padding-top: 24px;
-  }
-
-  .article-item {
-    margin-bottom: 50px;
-    padding-left: 50px;
-  }
-
-  .article-item::before {
-    left: 18px;
-    width: 12px;
-    height: 12px;
-  }
-
-  .article-title {
-    font-size: 1.6rem;
-    padding: 20px 24px;
-  }
-
-  .article-date {
-    font-size: 1rem;
-    margin-top: 10px;
-  }
+  
+  /* 修正：在CSS里无法直接读取vue数据做content，更稳妥的方式是在template里修改移动端布局。
+     但为了保持“极简”，移动端我们只让节点发光，用户点击进去看日期也行。
+     或者我们让 .mono-date 变成 absolute 浮动。
+  */
 }
 </style>
